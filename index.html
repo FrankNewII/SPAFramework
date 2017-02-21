@@ -1,0 +1,38 @@
+<!doctype html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport"
+              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+        <meta http-equiv="X-UA-Compatible" content="ie=edge">
+        <title>Document</title>
+    </head>
+    <body>
+        <div id="mainController">
+            <div id="searchComponent">
+                <button role="searchButton">Search</button>
+                <input type="text" role="searchQuery"/>
+            </div>
+            <div id="flickrResultComponent" role="galleryWrapper">
+                <div role="gallery">
+                    <div role="picture" style="background-color: yellow;">h</div>
+                    <div role="picture" style="background-color: black;">h</div>
+                    <div role="picture" style="background-color: blue;">h</div>
+                    <div role="picture" style="background-color: gray;">h</div>
+                    <div role="picture" style="background-color: red;">h</div>
+                </div>
+            </div>
+        </div>
+
+        <script src="common/xhr.js"></script>
+        <script src="common/modelsStore.js"></script>
+        <script src="common/element.js"></script>
+        <script src="common/componentsStore.js"></script>
+
+        <script src="application/components/FlickrResultsComponent.js"></script>
+        <script src="application/models/flickr.js"></script>
+        <script src="application/components/MainController.js"></script>
+        <script src="application/components/SearchComponent.js"></script>
+        <script src="application/bootstrap.js"></script>
+    </body>
+</html>
