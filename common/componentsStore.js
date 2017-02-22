@@ -7,9 +7,9 @@
   var availableComponents = {};
 
   components.add = add;
-  components.init = init;
+  components.get = get;
 
-  function init(name, element, parentComponent) {
+  function get(name, element, parentComponent) {
 
     var applyArguments = [null];
     var args = Array.apply(null, arguments);

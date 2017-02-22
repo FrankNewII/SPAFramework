@@ -2,7 +2,12 @@
   "use strict";
 
   common.components.add('SearchComponent', SearchComponent);
+  /*namespaces*/
 
+
+  var template = common.templates.get('application/templates/asda.html', function (d) {
+    template = d;
+  });
   function SearchComponent(elem, parentComponent) {
     this.element = common.element.select.one(elem);
     this.parent = parentComponent;
