@@ -33,7 +33,7 @@
 
     if(object._childrens) {
       for(var i = 0; i < object._childrens.length; i++) {
-        downEvent(name, data, object._childrens[i]);
+        down(name, data, object._childrens[i]);
       }
     }
   }
