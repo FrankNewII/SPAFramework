@@ -1,4 +1,4 @@
-(function (common) {
+;(function (common) {
   "use strict";
 
   var main = common.components.get('MainController', '#mainController');

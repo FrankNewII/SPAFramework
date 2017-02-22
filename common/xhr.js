@@ -1,4 +1,4 @@
-(function (window) {
+;(function (window) {
   "use strict";
   window.common = window.common || {};
   var xhr = window.common.xhr = window.common.xhr || {};

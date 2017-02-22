@@ -1,4 +1,4 @@
-(function (common) {
+;(function (common) {
   "use strict";
 
   common.components.add('FlickrResultComponent', FlickrResultComponent);

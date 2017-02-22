@@ -1,4 +1,4 @@
-(function (common) {
+;(function (common) {
   "use strict";
 
   common.models.add('flickr', flickr);

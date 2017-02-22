@@ -1,4 +1,4 @@
-(function (window, document) {
+;(function (window, document) {
   window.common = window.common || {};
   var elem = window.common.element = window.common.element || {};
   elem.select = elem.select || {};

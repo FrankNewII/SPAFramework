@@ -1,4 +1,4 @@
-(function (window) {
+;(function (window) {
   "use strict";
   window.common = window.common || {};
   var models = window.common.models = window.common.models || {};
