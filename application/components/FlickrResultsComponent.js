@@ -15,9 +15,11 @@
     var target = e.target;
 
     if(~picturesPosition) {
-      this.parent.choose(target.getAttribute('src'), console.log);
+      this.parent.choose(target.getAttribute('src'), this.deletePhotoFromViewedInResults.bind(this));
     }
   }
+
+  FlickrResultComponent.prototype.deletePhotoFromViewedInResults = function () {}
 
   FlickrResultComponent.prototype.show = function (photos) {
     var result = document.createDocumentFragment();

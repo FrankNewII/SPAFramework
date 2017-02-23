@@ -14,9 +14,9 @@
     var parent = object.parent;
 
     while(parent) {
-      if(parent.events._listeners[name]) {
-        for(var a = 0; a < parent.events._listeners[name].length; a++) {
-          parent.events._listeners[name][a](data);
+      if(parent._listeners[name]) {
+        for(var a = 0; a < parent._listeners[name].length; a++) {
+          parent._listeners[name][a](data);
         }
       }
 
@@ -25,15 +25,15 @@
   }
 
   function down(name, object, data) {
-    if(object.events._listeners && object.events._listeners[name]) {
-      for(var i = 0; i < object.events._listeners[name]; i++) {
-        object.events._listeners[name][i](data);
+    if(object._listeners && object._listeners[name]) {
+      for(var i = 0; i < object._listeners[name].length; i++) {
+        object._listeners[name][i](data);
       }
     }
 
     if(object._childrens) {
       for(var i = 0; i < object._childrens.length; i++) {
-        down(name, data, object._childrens[i]);
+        down(name, object._childrens[i], data);
       }
     }
   }
@@ -47,10 +47,7 @@
     }
 
     if(!object._listeners[name]) {
-      Object.defineProperty(object._listeners, name, {
-        enumerable: false,
-        value: []
-      });
+      object._listeners[name] = [];
     }
 
     object._listeners[name].push(cb);

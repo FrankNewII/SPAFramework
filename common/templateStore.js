@@ -19,7 +19,6 @@
   }
 
   function add(url, cb, data) {
-    console.log(arguments);
     var tmp = document.createElement('div');
 
     tmp.innerHTML = data;

@@ -3,14 +3,14 @@
 
   common.components.add('MainController', MainController);
 
+  var flickr = common.models.get('flickr')();
 
   function MainController(elem) {
     this.element = common.element.select.one(elem);
-    this.flickModel = common.models.get('flickr')();
   }
 
   MainController.prototype.flickSearch = function (v, cb) {
-    this.flickModel.search(v, this.showSearched.bind(this, cb));
+    flickr.search(v, this.showSearched.bind(this, cb));
   };
 
   MainController.prototype.showSearched = function (cb, params) {

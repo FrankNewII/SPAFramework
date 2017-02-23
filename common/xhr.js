@@ -19,7 +19,6 @@
     xhr.open('GET', url+requestBody, true);
 
     xhr.onreadystatechange = function (e) {
-      console.log('response', e.currentTarget.status, e.readyState, e.currentTarget);
       if(e.currentTarget.status == 200) {
         e.currentTarget.readyState == 4 && resolve !== undefined && resolve(e.currentTarget.response);
       } else {
