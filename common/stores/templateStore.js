@@ -2,6 +2,13 @@
   "use strict";
   window.common = window.common || {};
   var templates = window.common.templates = window.common.templates || {};
+
+  /*Template store - this is template loader which will use to load templates of component
+  * loadedTemplates - this is cached templates (HTMLElements), with key like url and all time then i will try to load some
+  * resource i will check his in loadedTemplates object.
+  * If template was loaded before - so return HTMLElement
+  * else - load html string? convert this to HTMLElement, and set in cache*/
+
   var loadedTemplates = {};
 
   /*namespaces*/

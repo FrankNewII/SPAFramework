@@ -4,14 +4,18 @@
   window.common = window.common || {};
   var components = window.common.components = window.common.components || {};
 
+  /*Component store - most important class, Factory of component, which will return
+  * example of component class with additional functions, like event emiter, and services*/
   var availableComponents = {};
 
   components.add = add;
   components.get = get;
 
+
+
   function get(name, element, parentComponent) {
 
-    var component = new availableComponents[name](element, parentComponent)
+    var component = new availableComponents[name](element, parentComponent);
 
     addChildrens(component, parentComponent);
 

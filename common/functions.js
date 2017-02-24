@@ -4,6 +4,9 @@
   window.common = window.common || {};
   var functions = window.common.functions = window.common.functions || {};
 
+  /*Additional function for inside use or use in users application
+  * In Additional functions will be most common function, like foreach, extend, recursion forEach, etc.
+  * */
   function forEach(obj, fn) {
     if(obj || obj === null) {
       if(typeof (obj) == 'function') {

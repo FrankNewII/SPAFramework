@@ -1,8 +1,19 @@
-;(function (window, document) {
+;(function () {
   window.common = window.common || {};
   var elem = window.common.element = window.common.element || {};
   elem.select = elem.select || {};
 
+  /*This is JQuery like library
+  * I don't like idea use same method and 'query' of element for select a lot or one element
+  * with dependency by found elements on page, so i try to devide this
+  *
+  * SelectOne - object-wrapper for one element
+  * SelectList - object-wrapper for list of element
+  * SelectList uses same functions like SelectOne, so i set links to that functions in prototype
+  *
+  * @params 'query' - css selector of element on DOM or link to element
+  *
+  * */
   elem.select.one = function (query) {
     return new SelectOne(query);
   }
@@ -112,4 +123,4 @@
     return this;
   }
 
-})(window, document)
+})();

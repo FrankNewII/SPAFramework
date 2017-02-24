@@ -3,6 +3,13 @@
   window.common = window.common || {};
   var xhr = window.common.xhr = window.common.xhr || {};
 
+  /*This is AJAX part of SPAFramework
+  * Here i will write code only for AJAX request which i will use in project and users project
+  *
+  * @params 'url' - address to resource for get request or send response
+  * @params 'data' - data which will send to that request
+  * @params resolve and reject - callbacks which will called by dependency of response from resource
+  * */
   xhr.get = get;
 
   function get(url, data, resolve, reject) {

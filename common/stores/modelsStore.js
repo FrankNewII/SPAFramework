@@ -2,6 +2,8 @@
   "use strict";
   window.common = window.common || {};
   var models = window.common.models = window.common.models || {};
+
+  /*Store of services, in the future i wont to make it like DI, but now i don't understand why i need him*/
   var availableModels = {};
 
   models.add = add;
