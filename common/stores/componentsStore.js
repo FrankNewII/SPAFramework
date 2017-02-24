@@ -5,7 +5,8 @@
   var components = window.common.components = window.common.components || {};
 
   /*Component store - most important class, Factory of component, which will return
-  * example of component class with additional functions, like event emiter, and services*/
+  * example of component class with additional functions
+  * */
   var availableComponents = {};
 
   components.add = add;
