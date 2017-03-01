@@ -18,7 +18,7 @@
 
     var component = new availableComponents[name](element, parentComponent);
 
-    addChildrens(component, parentComponent);
+    addChildrensToParent(component, parentComponent);
 
     if(!availableComponents[name]) {
       throw new Error("Component is not available:" + name);
@@ -36,7 +36,8 @@
     availableComponents[name] = fn;
   }
 
-  function addChildrens(object, parent) {
+  function addChildrensToParent(object, parent) {
+
     Object.defineProperty(object, '_childrens', {
       enumerable: false,
       value: []
