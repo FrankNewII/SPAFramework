@@ -12,15 +12,16 @@
   components.add = add;
   components.get = get;
 
-
-
   function get(name, element, parentComponent) {
+    name = name.replace(/[A-Z]/g, function (v, i) {
+      return i ? '-' + v.toLowerCase() : v.toLowerCase();
+    });
 
     var component = new availableComponents[name](element, parentComponent);
 
     addChildrensToParent(component, parentComponent);
 
-    if(!availableComponents[name]) {
+    if (!availableComponents[name]) {
       throw new Error("Component is not available:" + name);
     }
 
@@ -28,22 +29,41 @@
   }
 
   function add(name, fn) {
-    if(availableComponents[name]) {
-      console.warn("Reset component: "+ name);
+
+    name = name.replace(/[A-Z]/g, function (v, i) {
+      return i ? '-' + v.toLowerCase() : v.toLowerCase();
+    });
+
+    if (availableComponents[name]) {
+      console.warn("You try to reset component: " + name);
       return;
     }
+
+    document.registerElement(name, {
+      prototype: Object.create(HTMLDivElement.prototype, {
+        createdCallback: {
+          value: function () {
+            console.log('[CALLBACK] created: ', this);
+          }
+        },
+        attachedCallback: {
+          value: function () {
+            console.log('[CALLBACK] attached: ', this);
+          }
+        }
+      })
+    });
 
     availableComponents[name] = fn;
   }
 
   function addChildrensToParent(object, parent) {
-
     Object.defineProperty(object, '_childrens', {
       enumerable: false,
       value: []
     });
 
-    if(parent) parent._childrens.push(object);
+    if (parent) parent._childrens.push(object);
   }
 
 })(window)
