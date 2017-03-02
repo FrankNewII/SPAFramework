@@ -8,7 +8,7 @@
   * example of component class with additional functions
   * */
   var availableComponents = {};
-
+  var loadedComponents = [];
   components.add = add;
   components.get = get;
 
@@ -39,16 +39,36 @@
       return;
     }
 
+    /*TODO: DI*/
+
     document.registerElement(name, {
       prototype: Object.create(HTMLDivElement.prototype, {
-        createdCallback: {
-          value: function () {
-            console.log('[CALLBACK] created: ', this);
-          }
-        },
         attachedCallback: {
           value: function () {
-            console.log('[CALLBACK] attached: ', this);
+
+            var parent = this.parentNode;
+            var isParentFound = false;
+            while (parent) {
+              if (parent.nodeName.toLowerCase() in availableComponents) {
+                isParentFound = true;
+                break;
+              } else {
+                parent = parent.parentNode;
+              }
+            }
+
+            var component = {};
+            component.element = common.element.select.one(this);
+            component.parent = isParentFound ? parent._component : undefined;
+            availableComponents[name].bind(component);
+
+            component = new availableComponents[name];
+            Object.defineProperty(this, '_component', {
+              enumerable: false,
+              value: component
+            });
+
+            addChildrensToParent(component, isParentFound ? parent._component : undefined);
           }
         }
       })
