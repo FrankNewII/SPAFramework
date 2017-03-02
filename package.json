@@ -1,0 +1,32 @@
+{
+  "name": "spa-framework",
+  "version": "1.0.0",
+  "description": "Single Page Application Framework",
+  "main": "index.js",
+  "scripts": {
+    "test": "./node_modules/karma/bin/karma start karma.conf.js"
+  },
+  "devDependencies": {
+    "jasmine-core": "^2.2.0",
+    "karma": "^0.12.31",
+    "karma-chrome-launcher": "^0.1.7",
+    "karma-jasmine": "^0.3.5"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/FrankNewII/SPAFramework.git"
+  },
+  "keywords": [
+    "SinglePageApplication",
+    "Framework",
+    "SPA",
+    "Framework",
+    "SPAFramework"
+  ],
+  "author": "FrankNew",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/FrankNewII/SPAFramework/issues"
+  },
+  "homepage": "https://github.com/FrankNewII/SPAFramework#readme"
+}
