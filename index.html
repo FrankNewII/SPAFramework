@@ -7,14 +7,28 @@
         <meta http-equiv="X-UA-Compatible" content="ie=edge">
         <title>Document</title>
 
+        <script src="common/stores/modelsStore.js"></script>
+        <script src="common/stores/componentsStore.js"></script>
+        <script src="common/xhr.js"></script>
+        <script src="common/stores/templateStore.js"></script>
+        <script src="common/element.js"></script>
+        <script src="common/events.js"></script>
+        <script src="common/functions.js"></script>
+
+        <script src="application/components/FlickrResultsComponent.js"></script>
+        <script src="application/models/flickr.js"></script>
+        <script src="application/components/MainController.js"></script>
+        <script src="application/components/SearchComponent.js"></script>
+        <script src="application/bootstrap.js"></script>
+
 
     </head>
     <body>
-        <div id="mainController">
-            <div id="searchComponent">
+    <main-controller>
+        <search-component>
                 <button role="button">Search</button>
                 <input type="text" role="query"/>
-            </div>
+        </search-component>
             <div id="flickrResultComponent" role="gallery">
                 <div class="gallery">
                     <div role="picture" style="background-color: yellow;">h</div>
@@ -24,19 +38,6 @@
                     <div role="picture" style="background-color: red;">h</div>
                 </div>
             </div>
-        </div>
-
-        <script src="common/stores/modelsStore.js"></script>
-        <script src="common/stores/componentsStore.js"></script>
-        <script src="common/xhr.js"></script>
-        <script src="common/stores/templateStore.js"></script>
-        <script src="common/element.js"></script>
-        <script src="common/events.js"></script>
-
-        <script src="application/components/FlickrResultsComponent.js"></script>
-        <script src="application/models/flickr.js"></script>
-        <script src="application/components/MainController.js"></script>
-        <script src="application/components/SearchComponent.js"></script>
-        <script src="application/bootstrap.js"></script>
+    </main-controller>
     </body>
 </html>
