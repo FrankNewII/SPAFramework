@@ -3,9 +3,7 @@
 
   common.components.add('FlickrResultComponent', FlickrResultComponent);
 
-  function FlickrResultComponent(elem, parentComponent) {
-    this.element = common.element.select.one(elem);
-    this.parent = parentComponent;
+  function FlickrResultComponent() {
     this.element.addListener('click', this.addToChoosed.bind(this));
     this.pictures = [];
   }
