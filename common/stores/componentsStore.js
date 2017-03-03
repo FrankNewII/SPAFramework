@@ -61,8 +61,8 @@
             component.element = common.element.select.one(this);
             component.parent = isParentFound ? parent._component : undefined;
             availableComponents[name].bind(component);
-
-            component = new availableComponents[name];
+              console.log('huy');
+              component = new availableComponents[name];
             Object.defineProperty(this, '_component', {
               enumerable: false,
               value: component
