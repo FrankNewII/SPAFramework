@@ -1,43 +1,42 @@
 <!doctype html>
 <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport"
-              content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-        <meta http-equiv="X-UA-Compatible" content="ie=edge">
-        <title>Document</title>
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+    <script src="dist/framework/main.min.js"></script>
+    <script src="dist/application/main.min.js"></script>
+    <link rel="stylesheet" href="dist/styles/main.min.css">
+</head>
+<body>
+<main-controller>
+    <section class="container">
 
-        <script src="common/stores/modelsStore.js"></script>
-        <script src="common/stores/componentsStore.js"></script>
-        <script src="common/xhr.js"></script>
-        <script src="common/stores/templateStore.js"></script>
-        <script src="common/element.js"></script>
-        <script src="common/events.js"></script>
-        <script src="common/functions.js"></script>
+        <search-section>
+            <search-component>
+                <button>Search</button>
+                <input type="text"/>
+            </search-component>
 
-        <script src="application/components/FlickrResultsComponent.js"></script>
-        <script src="application/models/flickr.js"></script>
-        <script src="application/components/MainController.js"></script>
-        <script src="application/components/SearchComponent.js"></script>
-        <script src="application/bootstrap.js"></script>
-
-
-    </head>
-    <body>
-    <main-controller>
-        <search-component>
-                <button role="button">Search</button>
-                <input type="text" role="query"/>
-        </search-component>
-            <div id="flickrResultComponent" role="gallery">
-                <div class="gallery">
-                    <div role="picture" style="background-color: yellow;">h</div>
-                    <div role="picture" style="background-color: black;">h</div>
-                    <div role="picture" style="background-color: blue;">h</div>
-                    <div role="picture" style="background-color: gray;">h</div>
-                    <div role="picture" style="background-color: red;">h</div>
+            <gallery-component>
+                <div>
+                    <div class="gallery">
+                    </div>
                 </div>
-            </div>
-    </main-controller>
-    </body>
+            </gallery-component>
+        </search-section>
+
+        <result-section>
+            <gallery-component>
+                <div>
+                    <div class="gallery">
+                    </div>
+                </div>
+            </gallery-component>
+        </result-section>
+    </section>
+</main-controller>
+</body>
 </html>
