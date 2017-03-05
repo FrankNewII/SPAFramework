@@ -35,7 +35,7 @@
         });
 
         if (availableComponents[name]) {
-            console.warn("You try to reset component: " + name);
+            console.warn("You try to reset component with name: " + name);
             return;
         }
 

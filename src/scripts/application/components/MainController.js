@@ -14,6 +14,7 @@
   };
 
   MainController.prototype.showSearched = function (cb, params) {
+      console.log('huylo');
     cb(params);
   };
 
