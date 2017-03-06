@@ -4,13 +4,15 @@
   "description": "Single Page Application Framework",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/karma/bin/karma start karma.conf.js"
+    "test": "./node_modules/karma/bin/karma start karma.conf.js",
+    "run": "gulp"
   },
   "devDependencies": {
     "gulp": "^3.9.1",
     "gulp-autoprefixer": "^3.1.1",
     "gulp-clean": "^0.3.2",
     "gulp-concat": "^2.6.1",
+    "gulp-connect": "^5.0.0",
     "gulp-jshint": "^2.0.4",
     "gulp-livereload": "^3.8.1",
     "gulp-minify-css": "^1.2.4",
@@ -24,8 +26,7 @@
     "karma": "^0.12.31",
     "karma-chrome-launcher": "^0.1.7",
     "karma-jasmine": "^0.3.5",
-    "sass": "^0.5.0",
-    "tiny-lr": "^1.0.3"
+    "sass": "^0.5.0"
   },
   "repository": {
     "type": "git",

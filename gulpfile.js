@@ -4,13 +4,10 @@ var gulp = require('gulp'),
     minifycss = require('gulp-minify-css'),
     uglify = require('gulp-uglify'),
     rename = require('gulp-rename'),
-    clean = require('gulp-clean'),
     concat = require('gulp-concat'),
-    notify = require('gulp-notify'),
     sourcemaps = require('gulp-sourcemaps'),
     livereload = require('gulp-livereload'),
-    lr = require('tiny-lr'),
-    server = lr();
+    connect = require('gulp-connect');
 
 var config = {
     styles: {
@@ -32,14 +29,24 @@ var config = {
         dest: 'dist/framework'
     },
     application: {
-        name: 'application',
-        src: [
-            'src/scripts/application/models/flickr.js',
-            'src/scripts/application/components/FlickrResultsComponent.js',
-            'src/scripts/application/components/MainComponent.js',
-            'src/scripts/application/components/SearchComponent.js'
-        ],
-        dest: 'dist/application'
+        models: {
+            name: 'application.models',
+            src: [
+                'src/scripts/application/models/**/*.js'
+            ],
+            dest: 'dist/application'
+        },
+        components: {
+            name: 'application.components',
+            src: [
+                'src/scripts/application/components/**/*.js'
+            ],
+            dest: 'dist/application'
+        }
+    },
+    server: {
+        root: '',
+        name: 'server'
     }
 };
 
@@ -49,26 +56,33 @@ gulp.task(config.styles.name, function () {
         .pipe(sourcemaps.init())
         .pipe(sass({style: 'expanded'}))
         .pipe(autoprefixer('last 2 version', 'safari 5', 'ie 8', 'ie 9', 'opera 12.1', 'ios 6', 'android 4'))
-        .pipe(gulp.dest(config.styles.dest))
         .pipe(rename({suffix: '.min'}))
         .pipe(minifycss())
-        .pipe(livereload(server))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.styles.dest))
-        .pipe(notify({message: 'Styles task complete'}));
+        .pipe(connect.reload());
 });
 
 // Application
-gulp.task(config.application.name, function () {
-    return gulp.src(config.application.src)
+gulp.task(config.application.models.name, function () {
+    return gulp.src(config.application.models.src)
         .pipe(sourcemaps.init())
-        .pipe(concat('main.js'))
+        .pipe(concat('application.models.js'))
+        .pipe(uglify())
+        .pipe(sourcemaps.write())
+        .pipe(gulp.dest(config.application.models.dest))
+        .pipe(connect.reload());
+});
+
+gulp.task(config.application.components.name, function () {
+    return gulp.src(config.application.components.src)
+        .pipe(sourcemaps.init())
+        .pipe(concat('application.components.js'))
         .pipe(rename({suffix: '.min'}))
         .pipe(uglify())
-        .pipe(livereload(server))
         .pipe(sourcemaps.write())
-        .pipe(gulp.dest(config.application.dest))
-        .pipe(notify({message: 'Application task complete'}));
+        .pipe(gulp.dest(config.application.components.dest))
+        .pipe(connect.reload());
 });
 
 //Framework
@@ -78,39 +92,39 @@ gulp.task(config.framework.name, function () {
         .pipe(concat('main.js'))
         .pipe(rename({suffix: '.min'}))
         .pipe(uglify())
-        .pipe(livereload(server))
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.framework.dest))
-        .pipe(notify({message: 'Framework task complete'}));
+        .pipe(connect.reload());
 });
 
-// Clean
-gulp.task('clean', function () {
-    return gulp.src([config.framework.dest, config.application.dest, config.styles.dest], {read: false})
-        .pipe(clean());
+gulp.task(config.server.name, function () {
+    connect.server({
+        root: config.server.root,
+        livereload: true
+    });
 });
 
 // Default task
-gulp.task('default', ['clean', config.styles.name, config.framework.name, config.application.name]);
+gulp.task('default', [
+    config.styles.name,
+    config.framework.name,
+    config.application.models.name,
+    config.application.components.name,
+    config.server.name,
+    'watch'
+]);
 
 // Watch
 gulp.task('watch', function () {
 
-    server.listen(8080, function (err) {
-        if (err) {
-            return console.log(err)
-        }
-        ;
+    gulp.watch(config.styles.src, [config.styles.name]);
 
-        // Watch .scss files
-        gulp.watch(config.styles.src, [config.styles.name]);
+    // Watch .js files
+    gulp.watch(config.framework.src, [config.framework.name]);
 
-        // Watch .js files
-        gulp.watch(config.framework.src, [config.framework.name]);
+    // Watch application files
+    gulp.watch(config.application.components.src, [config.application.components.name]);
 
-        // Watch image files
-        gulp.watch(config.application.src, [config.application.name]);
-
-    });
+    gulp.watch(config.application.models.src, [config.application.models.name]);
 
 });
