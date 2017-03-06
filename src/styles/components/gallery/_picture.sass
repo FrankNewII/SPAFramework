@@ -1,8 +1,10 @@
+@import "_config"
+
 .pictureWrapper
-  height: 200px
-  width: 200px
+  height: $picturesHeight
+  width: $pictureWrapperWidth
   transition: background-color, opacity, color .3s
   background-color: white
   &.loading
-    background-color: azure
+    background-color: $loadingColor
     pointer-events: none
