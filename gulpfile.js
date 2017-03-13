@@ -18,7 +18,7 @@ var config = {
     framework: {
         name: 'framework',
         src: [
-            'src/scripts/common/functions.js',
+            'src/scripts/common/functions/array.js',
             'src/scripts/common/xhr.js',
             'src/scripts/common/stores/templateStore.js',
             'src/scripts/common/stores/modelsStore.js',
