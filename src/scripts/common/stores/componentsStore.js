@@ -3,15 +3,15 @@
 
     window.common = window.common || {};
     var components = window.common.components = window.common.components || {};
-
-    /*Component store - most important class, Factory of component, which will return
+    /*
+     * Component store - most important class, Factory of component, which will return
      * example of component class with additional functions
      * */
     var availableComponents = {};
-    var loadedComponents = [];
     components.add = add;
     components.get = get;
 
+    var DI = common.DI.get;
     function get(name, element, parentComponent) {
         name = name.replace(/[A-Z]/g, function (v, i) {
             return i ? '-' + v.toLowerCase() : v.toLowerCase();
@@ -39,7 +39,6 @@
             return;
         }
 
-        /*TODO: DI*/
         /*TODO: Set polyfill*/
         document.registerElement(name, {
             prototype: Object.create(HTMLDivElement.prototype, {
@@ -48,6 +47,8 @@
 
                         var parent = this.parentNode;
                         var isParentFound = false;
+                        var dependencies = [];
+                        dependencies = DI.apply(null, availableComponents[name].inject);
                         while (parent) {
                             if (parent.nodeName.toLowerCase() in availableComponents) {
                                 isParentFound = true;
@@ -60,8 +61,8 @@
                         var component = {};
                         component.element = common.element.select.one(this);
                         component.parent = isParentFound ? parent._component : undefined;
-                        availableComponents[name].bind(component);
-                        component = new availableComponents[name];
+
+                        component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
                         Object.defineProperty(this, '_component', {
                             enumerable: false,
                             value: component

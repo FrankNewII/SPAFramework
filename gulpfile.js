@@ -18,11 +18,12 @@ var config = {
     framework: {
         name: 'framework',
         src: [
-            'src/scripts/common/xhr.js',
-            'src/scripts/common/stores/componentsStore.js',
-            'src/scripts/common/stores/modelsStore.js',
-            'src/scripts/common/stores/templateStore.js',
             'src/scripts/common/functions.js',
+            'src/scripts/common/xhr.js',
+            'src/scripts/common/stores/templateStore.js',
+            'src/scripts/common/stores/modelsStore.js',
+            'src/scripts/common/services/DI.js',
+            'src/scripts/common/stores/componentsStore.js',
             'src/scripts/common/events.js',
             'src/scripts/common/element.js'
         ],
