@@ -19,13 +19,15 @@ var config = {
         name: 'framework',
         src: [
             'src/scripts/common/functions/array.js',
+            'src/scripts/common/functions/object.js',
             'src/scripts/common/xhr.js',
             'src/scripts/common/stores/templateStore.js',
             'src/scripts/common/stores/modelsStore.js',
+            'src/scripts/common/element.js',
+            'src/scripts/common/models/element.js',
             'src/scripts/common/services/DI.js',
             'src/scripts/common/stores/componentsStore.js',
-            'src/scripts/common/events.js',
-            'src/scripts/common/element.js'
+            'src/scripts/common/events.js'
         ],
         dest: 'dist/framework'
     },
