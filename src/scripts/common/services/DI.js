@@ -22,7 +22,14 @@
             var dependencies = [];
 
             forEach(arguments, function (dependencyName) {
-                dependencies.push(getModel(dependencyName))
+                //TODO: обдумать это решение. Не уверен, что так делать нормально и это точно очень не явно
+                if (typeof dependencyName === 'string') {
+                    dependencies.push(getModel(dependencyName));
+                }
+                else if (typeof dependencyName === 'function') {
+                    dependencies.push(dependencyName);
+                }
+
             });
 
             return dependencies;
