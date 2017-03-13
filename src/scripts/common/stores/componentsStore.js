@@ -79,7 +79,7 @@
                                 );
                             }
                         }
-
+                        dependencies.unshift(null);
                         var component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
 
                         component.parent = isParentFound ? parent._component : undefined;
