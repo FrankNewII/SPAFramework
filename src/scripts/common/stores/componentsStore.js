@@ -13,6 +13,8 @@
 
     var DI = common.DI.get;
     var elementModel = common.models.get('element');
+    var parentComponent = common.models.get('parentComponent');
+
     function get(name, element, parentComponent) {
         name = name.replace(/[A-Z]/g, function (v, i) {
             return i ? '-' + v.toLowerCase() : v.toLowerCase();
@@ -48,14 +50,7 @@
 
                         var parent = this.parentNode;
                         var isParentFound = false;
-                        //TODO: поменять эту фигню с инжектом элемента
 
-                        if (availableComponents[name].inject && ~availableComponents[name].inject.indexOf('element')) {
-                            availableComponents[name].inject.splice(
-                                availableComponents[name].inject.indexOf('element'), 1,
-                                elementModel(this)
-                            );
-                        }
 
                         var dependencies = availableComponents[name].inject ? DI.apply(null, availableComponents[name].inject) : [];
                         while (parent) {
@@ -64,6 +59,24 @@
                                 break;
                             } else {
                                 parent = parent.parentNode;
+                            }
+                        }
+
+
+                        if (availableComponents[name].inject) {
+                            //TODO: поменять эту фигню с инжектом элемента
+                            if (~availableComponents[name].inject.indexOf('element')) {
+                                availableComponents[name].inject.splice(
+                                    availableComponents[name].inject.indexOf('element'), 1,
+                                    elementModel(this)
+                                );
+                            }
+
+                            if (availableComponents[name].inject.indexOf('parentComponent')) {
+                                availableComponents[name].inject.splice(
+                                    availableComponents[name].inject.indexOf('parentComponent'), 1,
+                                    parentComponent(this)
+                                );
                             }
                         }
 

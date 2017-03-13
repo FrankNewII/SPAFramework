@@ -25,6 +25,7 @@ var config = {
             'src/scripts/common/stores/modelsStore.js',
             'src/scripts/common/element.js',
             'src/scripts/common/models/element.js',
+            'src/scripts/common/models/parentComponent.js',
             'src/scripts/common/services/DI.js',
             'src/scripts/common/stores/componentsStore.js',
             'src/scripts/common/events.js'
