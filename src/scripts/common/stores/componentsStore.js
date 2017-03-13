@@ -47,8 +47,7 @@
 
                         var parent = this.parentNode;
                         var isParentFound = false;
-                        var dependencies = [];
-                        dependencies = DI.apply(null, availableComponents[name].inject);
+                        var dependencies = availableComponents[name].inject ? DI.apply(null, availableComponents[name].inject) : [];
                         while (parent) {
                             if (parent.nodeName.toLowerCase() in availableComponents) {
                                 isParentFound = true;

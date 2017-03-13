@@ -3,7 +3,9 @@
   window.common = window.common || {};
   var models = window.common.models = window.common.models || {};
 
-  /*Store of services, in the future i wont to make it like DI, but now i don't understand why i need him*/
+    /*
+     * Store of services
+     * */
   var availableModels = {};
 
   models.add = add;
@@ -11,7 +13,7 @@
 
   function get(name) {
     if(!availableModels[name]) {
-      throw new Error("Model is not available:" + name);
+        throw new Error("Model is not available: " + name);
     }
 
     return availableModels[name];
