@@ -1,12 +1,18 @@
 ;(function () {
-  "use strict";
+    "use strict";
 
-  common.models.add('router', router);
+    window.common = window.common || {};
+    var router = window.common.router = window.common.router || {};
+    router.add = add;
+    router.get = get;
+    var routes = {};
 
-  var routes = {};
+    function add(name, params) {
 
-  function router(name, params) {
+    }
 
-  }
+    function get(name, params) {
+
+    }
 
 })();
