@@ -12,6 +12,7 @@
     components.get = get;
 
     var DI = common.DI.get;
+    var elementModel = common.models.get('element');
     function get(name, element, parentComponent) {
         name = name.replace(/[A-Z]/g, function (v, i) {
             return i ? '-' + v.toLowerCase() : v.toLowerCase();
@@ -47,6 +48,15 @@
 
                         var parent = this.parentNode;
                         var isParentFound = false;
+                        //TODO: поменять эту фигню с инжектом элемента
+
+                        if (availableComponents[name].inject && ~availableComponents[name].inject.indexOf('element')) {
+                            availableComponents[name].inject.splice(
+                                availableComponents[name].inject.indexOf('element'), 1,
+                                elementModel(this)
+                            );
+                        }
+
                         var dependencies = availableComponents[name].inject ? DI.apply(null, availableComponents[name].inject) : [];
                         while (parent) {
                             if (parent.nodeName.toLowerCase() in availableComponents) {
@@ -57,11 +67,9 @@
                             }
                         }
 
-                        var component = {};
-                        component.element = common.element.select.one(this);
-                        component.parent = isParentFound ? parent._component : undefined;
+                        var component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
 
-                        component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
+                        component.parent = isParentFound ? parent._component : undefined;
                         Object.defineProperty(this, '_component', {
                             enumerable: false,
                             value: component
