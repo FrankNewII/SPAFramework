@@ -72,7 +72,6 @@ gulp.task(config.application.models.name, function () {
     return gulp.src(config.application.models.src)
         .pipe(sourcemaps.init())
         .pipe(concat('application.models.js'))
-        .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.application.models.dest))
         .pipe(connect.reload());
@@ -83,7 +82,6 @@ gulp.task(config.application.components.name, function () {
         .pipe(sourcemaps.init())
         .pipe(concat('application.components.js'))
         .pipe(rename({suffix: '.min'}))
-        .pipe(uglify())
         .pipe(sourcemaps.write())
         .pipe(gulp.dest(config.application.components.dest))
         .pipe(connect.reload());
