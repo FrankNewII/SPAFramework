@@ -12,8 +12,6 @@
     components.get = get;
 
     var DI = common.DI.get;
-    var elementModel = common.models.get('element');
-    var parentComponent = common.models.get('parentComponent');
 
     function get(name, element, parentComponent) {
         name = name.replace(/[A-Z]/g, function (v, i) {
@@ -22,7 +20,7 @@
 
         var component = new availableComponents[name](element, parentComponent);
 
-        addChildrensToParent(component, parentComponent);
+        buildChildrensChain(component, parentComponent);
 
         if (!availableComponents[name]) {
             throw new Error("Component is not available:" + name);
@@ -50,9 +48,8 @@
 
                         var parent = this.parentNode;
                         var isParentFound = false;
-
-
-                        var dependencies = availableComponents[name].inject ? DI.apply(null, availableComponents[name].inject) : [];
+                        var dependencies;
+                        var component;
                         while (parent) {
                             if (parent.nodeName.toLowerCase() in availableComponents) {
                                 isParentFound = true;
@@ -62,33 +59,17 @@
                             }
                         }
 
-
-                        if (availableComponents[name].inject) {
-                            //TODO: поменять эту фигню с инжектом элемента
-                            if (~availableComponents[name].inject.indexOf('element')) {
-                                availableComponents[name].inject.splice(
-                                    availableComponents[name].inject.indexOf('element'), 1,
-                                    elementModel(this)
-                                );
-                            }
-
-                            if (availableComponents[name].inject.indexOf('parentComponent')) {
-                                availableComponents[name].inject.splice(
-                                    availableComponents[name].inject.indexOf('parentComponent'), 1,
-                                    parentComponent(this)
-                                );
-                            }
-                        }
+                        dependencies = availableComponents[name].inject ? DI.call(null, availableComponents[name].inject, this, isParentFound ? parent._component : undefined) : [];
                         dependencies.unshift(null);
-                        var component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
 
-                        component.parent = isParentFound ? parent._component : undefined;
+                        component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
+
                         Object.defineProperty(this, '_component', {
                             enumerable: false,
                             value: component
                         });
 
-                        addChildrensToParent(component, isParentFound ? parent._component : undefined);
+                        buildChildrensChain(component, isParentFound ? parent._component : undefined);
                     }
                 }
             })
@@ -97,13 +78,21 @@
         availableComponents[name] = fn;
     }
 
-    function addChildrensToParent(object, parent) {
+    function buildChildrensChain(object, parent) {
         Object.defineProperty(object, '_childrens', {
             enumerable: false,
             value: []
         });
 
+        if (parent) {
+            Object.defineProperty(object, '_parent', {
+                enumerable: false,
+                value: parent
+            });
+        }
+
+
         if (parent) parent._childrens.push(object);
     }
 
-})(window)
+})(window);
