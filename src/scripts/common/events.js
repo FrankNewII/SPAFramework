@@ -27,9 +27,9 @@
   events.on = on;
 
   function up(name, object, data) {
-    if(!object.parent) return;
+      if (!object._parent) return;
 
-    var parent = object.parent;
+      var parent = object._parent;
 
     while(parent) {
       if(parent._listeners[name]) {
