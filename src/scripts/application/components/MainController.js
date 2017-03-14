@@ -1,24 +1,28 @@
 ;(function (common) {
-  "use strict";
+    "use strict";
 
-  common.components.add('MainController', MainController);
+    common.components.add('MainController', MainController);
 
-  var flickr = common.models.get('flickr')();
+    var flickr = common.models.get('flickr')();
+    var events = common.events;
 
-  function MainController(elem) {
-    this.element = common.element.select.one(elem);
-  }
+    function MainController(elem) {
+        this.element = common.element.select.one(elem);
+        events.on('sell', this, function () {
+            console.log(arguments);
+        });
+    }
 
-  MainController.prototype.flickSearch = function (v, cb) {
-    flickr.search(v, this.showSearched.bind(this, cb));
-  };
+    MainController.prototype.flickSearch = function (v, cb) {
+        flickr.search(v, this.showSearched.bind(this, cb));
+    };
 
-  MainController.prototype.showSearched = function (cb, params) {
-      console.log('huylo');
-    cb(params);
-  };
+    MainController.prototype.showSearched = function (cb, params) {
+        console.log('huylo');
+        cb(params);
+    };
 
-  MainController.prototype.chooseImage = function (params, cb) {
-    cb(params);
-  };
+    MainController.prototype.chooseImage = function (params, cb) {
+        cb(params);
+    };
 })(common);

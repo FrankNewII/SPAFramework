@@ -6,7 +6,7 @@
   function FlickrResultComponent() {
     this.element.addListener('click', this.addToChoosed.bind(this));
     this.pictures = [];
-  }
+  };
 
   FlickrResultComponent.prototype.addToChoosed = function (e) {
     var picturesPosition = this.photos.indexOf(e.target);
@@ -15,7 +15,7 @@
     if(~picturesPosition) {
       this.parent.choose(target.getAttribute('src'), this.deletePhotoFromViewedInResults.bind(this));
     }
-  }
+  };
 
   FlickrResultComponent.prototype.deletePhotoFromViewedInResults = function () {}
 
@@ -32,5 +32,5 @@
     }
 
     this.element.innerHTML = result.innerHTML;
-  }
+  };
 })(common);
