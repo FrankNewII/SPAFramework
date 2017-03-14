@@ -18,15 +18,11 @@
             return i ? '-' + v.toLowerCase() : v.toLowerCase();
         });
 
-        var component = new availableComponents[name](element, parentComponent);
-
-        buildChildrensChain(component, parentComponent);
-
         if (!availableComponents[name]) {
             throw new Error("Component is not available:" + name);
         }
 
-        return component;
+        return availableComponents[name];
     }
 
     function add(name, fn) {
