@@ -1,4 +1,4 @@
-;(function (window) {
+;(function () {
   "use strict";
   window.common = window.common || {};
   var templates = window.common.templates = window.common.templates || {};
@@ -36,4 +36,4 @@
   function reject() {
     throw new Error('Template is not loaded, fuck your self.');
   }
-})(window)
+})();

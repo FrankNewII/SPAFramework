@@ -1,4 +1,4 @@
-;(function (window) {
+;(function () {
   "use strict";
 
   window.common = window.common || {};
@@ -72,4 +72,4 @@
     object._listeners[name].push(cb);
   }
 
-})(window)
+})();

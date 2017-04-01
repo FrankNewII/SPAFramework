@@ -1,4 +1,4 @@
-;(function (window) {
+;(function () {
   "use strict";
   window.common = window.common || {};
   var xhr = window.common.xhr = window.common.xhr || {};
@@ -35,4 +35,4 @@
 
     xhr.send();
   }
-})(window)
+})();

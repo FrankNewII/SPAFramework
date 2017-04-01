@@ -1,4 +1,4 @@
-;(function (window) {
+;(function () {
   "use strict";
 
   window.common = window.common || {};
@@ -28,4 +28,4 @@
 
     availableModels[name] = fn;
   }
-})(window);
+})();

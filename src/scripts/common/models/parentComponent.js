@@ -1,4 +1,4 @@
-;(function (common) {
+;(function () {
     "use strict";
 
     common.models.add('parentComponent', parent);
@@ -18,4 +18,4 @@
         };
     }
 
-})(common);
+})();

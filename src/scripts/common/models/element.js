@@ -1,4 +1,4 @@
-;(function (common) {
+;(function () {
     "use strict";
 
     common.models.add('element', element);
@@ -20,4 +20,4 @@
         };
     }
 
-})(common);
+})();

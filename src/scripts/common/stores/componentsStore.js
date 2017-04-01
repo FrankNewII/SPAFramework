@@ -1,4 +1,4 @@
-;(function (window) {
+;(function () {
     "use strict";
 
     window.common = window.common || {};
@@ -12,6 +12,7 @@
     components.get = get;
 
     var DI = common.DI.get;
+    var appendWatchers = common.sync.setWatcher;
 
     function get(name, element, parentComponent) {
         name = name.replace(/[A-Z]/g, function (v, i) {
@@ -66,6 +67,9 @@
                         });
 
                         buildChildrensChain(component, isParentFound ? parent._component : undefined);
+                        appendWatchers(component);
+
+                        console.log(component);
                     }
                 }
             })
@@ -91,4 +95,4 @@
         if (parent) parent._childrens.push(object);
     }
 
-})(window);
+})();
