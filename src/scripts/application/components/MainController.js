@@ -8,6 +8,7 @@
 
     function MainController(elem) {
         this.element = common.element.select.one(elem);
+        this.test = 23;
         events.on('sell', this, function () {
             console.log(arguments);
         });
