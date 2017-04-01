@@ -6,8 +6,11 @@
     var sync = window.common.sync = window.common.sync = {};
 
     sync.setWatcher = setWatchers;
+
     var forEach = common.functions.array.forEach;
     var watchedObjects = {};
+
+    //TODO: cut this after testing
     window.watchedObjects = {};
 
     var objectId = 0;
@@ -23,8 +26,6 @@
                 });
 
                 Object.defineProperty(object, k, {
-                    /*                    value: v,
-                     writable: true,*/
                     set: function (v) {
                         if (v !== this['__' + k]) {
                             this['__changedVariables'].push({
@@ -32,7 +33,6 @@
                                 oldValue: this[k],
                                 newValue: v
                             });
-                            console.log('oldValue', this['__' + k], 'nValue' + v, 'changed', this.__changedVariables);
                             this['__' + k] = v;
                         }
                     },

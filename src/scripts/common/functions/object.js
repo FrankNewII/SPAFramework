@@ -1,4 +1,4 @@
-;(function (window) {
+;(function () {
     "use strict";
 
     window.common = window.common || {};
@@ -15,4 +15,4 @@
         });
     }
 
-})(window);
+})();
