@@ -5,7 +5,6 @@
     var functions = window.common.functions = window.common.functions || {};
 
     functions.types = {};
-    functions.types.isNull = isNull;
     functions.types.isNumber = isNumber;
 
     ['Boolean', 'String', 'RegExp', 'Undefined', 'Date', 'Arguments', 'Function', 'Null'].forEach(function (v) {
