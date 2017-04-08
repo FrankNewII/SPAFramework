@@ -6,6 +6,7 @@
     var sync = window.common.sync = window.common.sync = {};
 
     sync.setWatcher = setWatchers;
+    sync.appendListener = appendListener;
 
     var forEach = common.functions.array.forEach;
     var watchedObjects = {};
@@ -18,38 +19,62 @@
     function setWatchers(object) {
         forEach(object, function (v, k) {
             if (typeof v !== "function") {
-                console.log(v);
-                Object.defineProperty(object, '__' + k, {
+                if (!object.__vars) {
+                    Object.defineProperty(object, '__vars', {
+                        enumerable: false,
+                        value: {},
+                        writable: true
+                    });
+                }
+
+                Object.defineProperty(object.__vars, k, {
+                    enumerable: false,
+                    value: {},
+                    writable: true
+                });
+
+                Object.defineProperty(object.__vars[k], 'value', {
                     enumerable: false,
                     value: v,
+                    writable: true
+                });
+
+                Object.defineProperty(object.__vars[k], 'listeners', {
+                    enumerable: false,
+                    value: [],
                     writable: true
                 });
 
                 Object.defineProperty(object, k, {
                     set: function (v) {
                         if (v !== this['__' + k]) {
-                            this['__changedVariables'].push({
-                                name: k,
-                                oldValue: this[k],
-                                newValue: v
-                            });
-                            this['__' + k] = v;
+
+                            updateViews(this.__vars[k], v);
+
+                            this.__vars[k].value = v;
                         }
                     },
                     get: function () {
-                        return this['__' + k];
+                        return this.__vars[k].value;
                     }
-                })
+                });
             }
         });
 
-        Object.defineProperty(object, '__changedVariables',
-            {
-                value: [],
-                enumerable: false
-            }
-        );
         window.watchedObjects[objectId++] = object;
+    }
+
+    function updateViews(object, value) {
+        if (object.listeners) {
+            forEach(object.listeners, function (v) {
+                console.log(v);
+                v.update(value);
+            });
+        }
+    }
+
+    function appendListener(valueFrom, view, key) {
+        valueFrom.__vars[key].listeners.push(view);
     }
 
 })();
