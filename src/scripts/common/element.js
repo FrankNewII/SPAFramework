@@ -32,6 +32,16 @@
 
   SelectOne.prototype.getValue = getValue;
 
+    SelectOne.prototype.setValue = setValue;
+
+    SelectOne.prototype.getHtml = getHtml;
+
+    SelectOne.prototype.setHtml = setHtml;
+
+    SelectOne.prototype.getAttribute = getAttribute;
+
+    SelectOne.prototype.setAttribute = setAttribute;
+
   SelectOne.prototype.addClass = addClass;
 
   SelectOne.prototype.removeClass = removeClass;
@@ -65,7 +75,7 @@
         elem: this.elems[i]
       }, className);
     }
-  }
+  };
 
 
   SelectList.prototype.removeClass = function (className) {
@@ -74,7 +84,7 @@
         elem: this.elems[i]
       }, className);
     }
-  }
+  };
 
   function addClass(className) {
     if(!this.elem.classList.contains(className)){
@@ -94,6 +104,45 @@
     }
     return this.elem.value;
   }
+
+    function setValue(value) {
+        if (!this.elem.value) {
+            console.warn("This element haven't value:", this.elem);
+        }
+        this.elem.value = value;
+
+        return this;
+    }
+
+    function getAttribute(attr) {
+        var attrVal = this.elem.getAttribute(attr);
+        if (attrVal === null) {
+            console.warn("This element haven't attribute - " + attr + ":", this.elem);
+        }
+
+        return attrVal;
+    }
+
+    function setAttribute(key, attr) {
+        this.elem.setAttribute(key, attr);
+        return this;
+    }
+
+    function getHtml() {
+        if (!this.elem.innerHTML) {
+            console.warn("This element haven't html:", this.elem);
+        }
+        return this.elem.innerHTML;
+    }
+
+    function setHtml(html) {
+        if (!this.elem.innerHTML) {
+            console.warn("This element haven't html:", this.elem);
+        }
+        this.elem.innerHTML = html;
+
+        return this;
+    }
 
   function removeClass(className) {
     if(this.elem.classList.contains(className)){
