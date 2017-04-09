@@ -6,16 +6,18 @@
     BindVar.inject = ['element', 'parentComponent'];
 
     function BindVar(elem, parent) {
+        var element = elem();
         console.log(arguments);
-        var key = elem().getAttribute('var-name');
+        var key = element.getAttribute('var-name');
         if (!key) {
             throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
         }
-        appendListener(parent(), this, key);
-        this.update = (function (elem) {
+        this.update = (function (element) {
             return function (value) {
-                elem.setHtml(value);
+                element.setHtml(value.toString());
             }
-        })(elem);
+        })(element);
+
+        appendListener(parent(), this, key);
     }
 })(common);

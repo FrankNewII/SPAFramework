@@ -75,6 +75,7 @@
 
     function appendListener(valueFrom, view, key) {
         valueFrom.__vars[key].listeners.push(view);
+        view.update(valueFrom.__vars[key].value);
     }
 
 })();

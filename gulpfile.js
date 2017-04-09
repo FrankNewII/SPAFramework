@@ -28,7 +28,8 @@ var config = {
             'src/scripts/common/models/parentComponent.js',
             'src/scripts/common/services/DI.js',
             'src/scripts/common/stores/componentsStore.js',
-            'src/scripts/common/events.js'
+            'src/scripts/common/events.js',
+            'src/sctipts/common/components/bind.js'
         ],
         dest: 'dist/framework'
     },
