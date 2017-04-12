@@ -30,6 +30,9 @@
 
   SelectOne.prototype.searchIn = searchIn;
 
+    SelectOne.prototype.searchListIn = searchListIn;
+
+
   SelectOne.prototype.getValue = getValue;
 
     SelectOne.prototype.setValue = setValue;
@@ -67,7 +70,7 @@
 
   SelectList.findAll = function (query) {
     return document.querySelectorAll(query);
-  }
+  };
 
   SelectList.prototype.addClass = function (className) {
     for(var i = 0; i < this.elems.length; i++) {
@@ -97,6 +100,10 @@
   function searchIn(query) {
     return new SelectOne(this.elem.querySelector(query));
   }
+
+    function searchListIn(query) {
+        return new SelectOne(this.elem.querySelectorAll(query));
+    }
 
   function getValue(query) {
     if(!this.elem.value) {

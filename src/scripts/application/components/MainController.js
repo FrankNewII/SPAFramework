@@ -9,6 +9,8 @@
     function MainController(elem) {
         this.element = common.element.select.one(elem);
         this.test = 23;
+
+        this.testForeach = {a: 1, b: 2, c: 3};
         events.on('sell', this, function () {
             console.log(arguments);
         });
