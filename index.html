@@ -23,7 +23,7 @@
     <script src="src/scripts/common/services/dataSync.js"></script>
     <script src="src/scripts/common/services/templatesCompiler.js"></script>
     <script src="src/scripts/common/stores/componentsStore.js"></script>
-    <script src="src/scripts/common/components/bind.js"></script>
+    <script src="src/scripts/common/components/bindVar.js"></script>
 
     <script src="dist/application/application.models.js"></script>
     <script src="dist/application/application.components.min.js"></script>
@@ -32,6 +32,33 @@
 
 </head>
 <body>
+<main-controller>
+    <section class="container">
+        <bind-var var-name="test"></bind-var>
+        <search-section>
+            <search-component>
+                <button>Search</button>
+                <input type="text"/>
+            </search-component>
+
+            <gallery-component>
+                <div>
+                    <div class="gallery">
+                    </div>
+                </div>
+            </gallery-component>
+        </search-section>
+
+        <result-section>
+            <gallery-component>
+                <div>
+                    <div class="gallery">
+                    </div>
+                </div>
+            </gallery-component>
+        </result-section>
+    </section>
+</main-controller>
 <main-controller>
     <section class="container">
         <bind-var var-name="test"></bind-var>

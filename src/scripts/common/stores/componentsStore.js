@@ -36,7 +36,7 @@
             console.warn("You try to reset component with name: " + name);
             return;
         }
-
+        console.log(name);
         /*TODO: Set polyfill*/
         document.registerElement(name, {
             prototype: Object.create(HTMLDivElement.prototype, {
