@@ -4,7 +4,15 @@
     common.components.add('ForEach', ForEach);
     var appendListener = window.common.sync.appendListener;
     ForEach.inject = ['element', 'parentComponent'];
-
+    /*
+     * Надо сделать обновление хтмл при изменении родительского значения
+     *
+     * Я думаю, что стоит перенести просмотраиваемые значения в какую-нибудь переменную
+     *
+     * Также стоит не забыть об удалени переменной при удалении элементов, чтобы не засорять оперативку ненужными
+     * прослушками.
+     *
+     * */
     function ForEach(elem, parent) {
         var element = elem();
         var parentComponent = parent();
