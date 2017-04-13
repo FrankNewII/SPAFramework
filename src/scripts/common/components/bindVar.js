@@ -7,7 +7,7 @@
 
     function BindVar(elem, parent) {
         var element = elem();
-        console.log(arguments);
+
         var key = element.getAttribute('var-name');
         if (!key) {
             throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');

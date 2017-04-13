@@ -14,7 +14,7 @@
     var DI = common.DI.get;
     var appendWatchers = common.sync.setWatcher;
 
-    function get(name, element, parentComponent) {
+    function get(name) {
         name = name.replace(/[A-Z]/g, function (v, i) {
             return i ? '-' + v.toLowerCase() : v.toLowerCase();
         });
@@ -60,6 +60,10 @@
                         dependencies.unshift(null);
 
                         component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
+
+                        if (component.onInit) {
+                            component.onInit();
+                        }
 
                         Object.defineProperty(this, '_component', {
                             enumerable: false,
