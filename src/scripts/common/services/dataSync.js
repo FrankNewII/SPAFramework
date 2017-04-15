@@ -78,7 +78,6 @@
     function updateViews(object, value, key) {
         if (object.listeners) {
             forEach(object.listeners, function (v) {
-                console.log(v);
                 v.__update(value, key);
             });
         }

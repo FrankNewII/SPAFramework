@@ -36,11 +36,15 @@
 <body>
 <main-controller>
     <section class="container">
-        <bind-var var-name="test"></bind-var>
+        <ul>
+            <for-each key-name="test" var-in="testForeach">
+                <li>
+                    <bind-var var-name="test"></bind-var>
+                </li>
+            </for-each>
+        </ul>
 
-        <for-each key-name="test" var-in="testForeach">
-            <bind-var var-name="test"></bind-var>
-        </for-each>
+
         <search-section>
             <search-component>
                 <button>Search</button>
@@ -67,7 +71,6 @@
 </main-controller>
 <main-controller>
     <section class="container">
-        <bind-var var-name="test"></bind-var>
         <search-section>
             <search-component>
                 <button>Search</button>

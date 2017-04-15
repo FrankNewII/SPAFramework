@@ -27,9 +27,12 @@ var config = {
             'src/scripts/common/models/element.js',
             'src/scripts/common/models/parentComponent.js',
             'src/scripts/common/services/DI.js',
+            'src/scripts/common/services/dataSync.js',
             'src/scripts/common/stores/componentsStore.js',
             'src/scripts/common/events.js',
-            'src/sctipts/common/components/bind.js'
+            'src/sctipts/common/components/bindVar.js',
+            'src/sctipts/common/components/forEach.js',
+            'src/sctipts/common/components/forEachKey.js'
         ],
         dest: 'dist/framework'
     },
