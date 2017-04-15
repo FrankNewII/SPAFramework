@@ -47,9 +47,9 @@
 
                 Object.defineProperty(object, k, {
                     set: function (v) {
-                        if (v !== this['__' + k]) {
+                        if (v !== this.__vars[k]) {
 
-                            updateViews(this.__vars[k], v);
+                            updateViews(this.__vars[k], v, k);
 
                             this.__vars[k].value = v;
                         }
@@ -64,18 +64,29 @@
         window.watchedObjects[objectId++] = object;
     }
 
-    function updateViews(object, value) {
+    /*
+     * Это функция обновления подписчиков на перемную. Здесь я вызываю все функции прослушек и передаю им два параметра
+     * Новое значение и имя ключа. В принципе я бы смог справится с одним значением. Но ключ мне надо для прослушек,
+     * которые следят за целыми объектами.
+     * Мне нет мысла для каждой переменной объекта создавать отдельную функцию обновления.
+     *
+     * Я сейчас подумал о том, что в случае с прослушкой массива - я нарушу работу оптимизатора, который попытается оптимизировать
+     * массив. Как вариант - прийдется использовать новый класс наследник от массива.
+     * Но я пока незнаю...
+     * */
+
+    function updateViews(object, value, key) {
         if (object.listeners) {
             forEach(object.listeners, function (v) {
                 console.log(v);
-                v.update(value);
+                v.__update(value, key);
             });
         }
     }
 
     function appendListener(valueFrom, view, key) {
         valueFrom.__vars[key].listeners.push(view);
-        view.update(valueFrom.__vars[key].value);
+        view.__update(valueFrom.__vars[key].value);
     }
 
 })();

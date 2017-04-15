@@ -3,6 +3,7 @@
 
     common.components.add('ForEach', ForEach);
     var appendListener = window.common.sync.appendListener;
+    var appendWatchers = common.sync.setWatcher;
     ForEach.inject = ['element', 'parentComponent'];
     /*
      * Надо сделать обновление хтмл при изменении родительского значения
@@ -13,6 +14,7 @@
      * прослушками.
      *
      * */
+
     function ForEach(elem, parent) {
         var element = elem();
         var parentComponent = parent();
@@ -21,12 +23,21 @@
 
         var html = element.getHtml();
         var newHtml = "";
+        var listenKeys = [];
+
+        appendWatchers(parentComponent[parentVar]);
+
+        this.__update = function (v, k) {
+            this[k] = v;
+        };
 
         for (var k in parentComponent[parentVar]) {
             this[k] = parentComponent[parentVar][k];
-
+            listenKeys.push(k);
             newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
+            appendListener(parentComponent[parentVar], this, k);
         }
+
 
         /*
          * Я делаю временное удаление хтмл, так как на момент попытки привязать значение к
@@ -40,8 +51,6 @@
 
         setTimeout((function () {
             element.setHtml(newHtml);
-        }).bind(this), 0);
-
-
+        }).bind(this));
     }
 })(common);

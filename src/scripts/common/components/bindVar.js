@@ -12,7 +12,7 @@
         if (!key) {
             throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
         }
-        this.update = (function (element) {
+        this.__update = (function (element) {
             return function (value) {
                 element.setHtml(value.toString());
             }
