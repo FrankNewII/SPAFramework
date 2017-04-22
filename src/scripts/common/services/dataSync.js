@@ -9,6 +9,8 @@
     sync.appendListener = appendListener;
 
     var forEach = common.functions.array.forEach;
+
+    var typing = common.functions.types;
     var watchedObjects = {};
 
     //TODO: cut this after testing
@@ -18,7 +20,7 @@
 
     function setWatchers(object) {
         forEach(object, function (v, k) {
-            if (typeof v !== "function") {
+            if (!typing.isFunction(v)) {
                 if (!object.__vars) {
                     Object.defineProperty(object, '__vars', {
                         enumerable: false,
@@ -33,31 +35,19 @@
                     writable: true
                 });
 
-                Object.defineProperty(object.__vars[k], 'value', {
-                    enumerable: false,
-                    value: v,
-                    writable: true
-                });
-
                 Object.defineProperty(object.__vars[k], 'listeners', {
                     enumerable: false,
                     value: [],
                     writable: true
                 });
 
-                Object.defineProperty(object, k, {
-                    set: function (v) {
-                        if (v !== this.__vars[k]) {
-
-                            updateViews(this.__vars[k], v, k);
-
-                            this.__vars[k].value = v;
-                        }
-                    },
-                    get: function () {
-                        return this.__vars[k].value;
-                    }
+                Object.defineProperty(object.__vars[k], 'value', {
+                    enumerable: false,
+                    value: v,
+                    writable: true
                 });
+
+                appendWatchersToRef(object, k, v);
             }
         });
 
@@ -75,7 +65,7 @@
      * Но я пока незнаю...
      * */
 
-    function updateViews(object, value, key) {
+    function updateListeners(object, value, key) {
         if (object.listeners) {
             forEach(object.listeners, function (v) {
                 v.__update(value, key);
@@ -87,5 +77,29 @@
         valueFrom.__vars[key].listeners.push(view);
         view.__update(valueFrom.__vars[key].value);
     }
+
+    function appendWatchersToRef(object, k) {
+        Object.defineProperty(object, k, {
+            set: function (v) {
+                if (v !== this.__vars[k]) {
+
+                    updateListeners(this.__vars[k], v, k);
+
+                    this.__vars[k].value = v;
+                }
+            },
+            get: function () {
+                return this.__vars[k].value;
+            }
+        });
+    }
+
+    function ArrayModifyChecker(args, currentObject) {
+        if (args && args.length) {
+
+        }
+    }
+
+    ArrayModifyChecker.prototype = Object.create(Array.prototype);
 
 })();
