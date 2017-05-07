@@ -95,11 +95,43 @@
     }
 
     function ArrayModifyChecker(args, currentObject) {
-        if (args && args.length) {
-
-        }
+        this.push.apply(this, args);
     }
 
     ArrayModifyChecker.prototype = Object.create(Array.prototype);
+
+    ArrayModifyChecker.prototype.constructor = ArrayModifyChecker;
+
+    ArrayModifyChecker.prototype.push = function () {
+        Array.prototype.push.apply(this, arguments);
+        console.log(this);
+    };
+
+    ArrayModifyChecker.prototype.pop = function () {
+        Array.prototype.push.apply(this, arguments);
+        console.log(this);
+    };
+
+    ArrayModifyChecker.prototype.shift = function () {
+        Array.prototype.push.apply(this, arguments);
+        console.log(this);
+    };
+
+    ArrayModifyChecker.prototype.unshift = function () {
+        Array.prototype.push.apply(this, arguments);
+        console.log(this);
+    };
+    ArrayModifyChecker.prototype.slice = function () {
+        Array.prototype.push.apply(this, arguments);
+        console.log(this);
+    };
+    ArrayModifyChecker.prototype.splice = function () {
+        Array.prototype.push.apply(this, arguments);
+        console.log(this);
+    };
+
+    ArrayModifyChecker.prototype.count = function () {
+        console.log(this.length);
+    }
 
 })();

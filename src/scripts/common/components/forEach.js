@@ -27,7 +27,7 @@
         var html = element.getHtml();
         var newHtml = "";
         var listenKeys = [];
-
+        var isReady = false;
         if (!isArray(parentComponent[parentVar])) {
             throw new Error('For-each works only with array.');
         }
@@ -35,7 +35,21 @@
         appendWatchers(parentComponent[parentVar]);
 
         this.__update = function (v, k) {
-            this[k] = v;
+            if (isReady) {
+                var self = this;
+                var newHtml = "";
+                listenKeys.forEach(function (val, key) {
+                    delete self[key];
+                });
+
+                forEach(parentComponent[parentVar], (function (v, k) {
+                    this[k] = parentComponent[parentVar][k];
+                    listenKeys.push(k);
+                    newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
+                }).bind(this));
+
+                element.setHtml(newHtml);
+            }
         };
 
         forEach(parentComponent[parentVar], (function (v, k) {
@@ -45,6 +59,7 @@
             appendListener(parentComponent[parentVar], this, k);
         }).bind(this));
 
+        isReady = !isReady;
         /*
          * Я делаю временное удаление хтмл, так как на момент попытки привязать значение к
          * переменной цикла - у меня нет родительского готового элемента (этого контекста,
@@ -53,10 +68,16 @@
          * Я был вынужден отложить инициализацию компонента for-each-key
          * путем немедленного таймаута
          * */
-        element.setHtml('');
+
+
+        /*
+         * Todo: надо сделать переписовку компонента при изменении массива родителя.
+         * Вопрос, как это сделать?
+         * */
+        /*element.setHtml('');
 
         setTimeout((function () {
             element.setHtml(newHtml);
-        }).bind(this));
+         }).bind(this));*/
     }
 })(common);
