@@ -7,17 +7,16 @@
 
     function BindVar(elem, parent) {
         var element = elem();
-
+        var parentCtrl = parent();
         var key = element.getAttribute('var-name');
         if (!key) {
             throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
         }
-        this.__update = (function (element) {
-            return function (value) {
-                element.setHtml(value.toString());
-            }
-        })(element);
+        this.__update = function (value) {
+            console.log(value, parentCtrl);
+            element.setHtml(value);
+        };
 
-        appendListener(parent(), this, key);
+        appendListener(parentCtrl, this, key);
     }
 })(common);

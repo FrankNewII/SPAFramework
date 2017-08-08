@@ -11,7 +11,7 @@
         var parentComponent = parent();
         var key = element.getAttribute('key-name');
         var index = element.getAttribute('for-each-index');
-        this[key] = parentComponent[key];
+        this[key] = parentComponent[index];
 
         this.__update = function (value) {
             this[key] = value;

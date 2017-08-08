@@ -143,7 +143,7 @@
     }
 
     function setHtml(html) {
-        if (!this.elem.innerHTML) {
+        if (this.elem.innerHTML === undefined) {
             console.warn("This element haven't html:", this.elem);
         }
         this.elem.innerHTML = html;

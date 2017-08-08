@@ -13,6 +13,7 @@
      *
      * Я думаю, что стоит перенести просмотраиваемые значения в какую-нибудь переменную
      *
+     * TODO:
      * Также стоит не забыть об удалени переменной при удалении элементов, чтобы не засорять оперативку ненужными
      * прослушками.
      *
@@ -28,6 +29,8 @@
         var newHtml = "";
         var listenKeys = [];
         var isReady = false;
+
+        var self = this;
         if (!isArray(parentComponent[parentVar])) {
             throw new Error('For-each works only with array.');
         }
@@ -36,28 +39,28 @@
 
         this.__update = function (v, k) {
             if (isReady) {
-                var self = this;
                 var newHtml = "";
-                listenKeys.forEach(function (val, key) {
+                forEach(listenKeys, function (val, key) {
                     delete self[key];
                 });
 
-                forEach(parentComponent[parentVar], (function (v, k) {
-                    this[k] = parentComponent[parentVar][k];
+                forEach(parentComponent[parentVar], function (v, k) {
+                    self[k] = parentComponent[parentVar][k];
+                    console.log(parentComponent[parentVar][k], parentComponent[parentVar], parentVar, self[k]);
                     listenKeys.push(k);
                     newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
-                }).bind(this));
+                });
 
                 element.setHtml(newHtml);
             }
         };
 
-        forEach(parentComponent[parentVar], (function (v, k) {
-            this[k] = parentComponent[parentVar][k];
+        forEach(parentComponent[parentVar], function (v, k) {
+            self[k] = parentComponent[parentVar][k];
             listenKeys.push(k);
             newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
-            appendListener(parentComponent[parentVar], this, k);
-        }).bind(this));
+            appendListener(parentComponent[parentVar], self, k);
+        });
 
         isReady = !isReady;
         /*
@@ -74,10 +77,10 @@
          * Todo: надо сделать переписовку компонента при изменении массива родителя.
          * Вопрос, как это сделать?
          * */
-        /*element.setHtml('');
+        element.setHtml('');
 
-        setTimeout((function () {
+        setTimeout(function () {
             element.setHtml(newHtml);
-         }).bind(this));*/
+        });
     }
 })(common);

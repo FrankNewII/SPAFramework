@@ -14,7 +14,7 @@
 
     function ArrayObserve(updateFn) {
         /*
-         * Это экласс, который является наблюдателем над массивом.
+         * Это класс, который является наблюдателем над массивом.
          * Смысл заключается в том, что-бы сделать прослойку между методами
          * кастомного класса и стандарной реализацией массива.
          *
@@ -74,13 +74,13 @@
                 for (var i = 0; i < k; i++) {
                     if (!this[i]) {
                         if (i != k) {
-                            this.splice(k, 1, undefined);
+                            Array.prototype.splice.apply(this, [k, 1, undefined]);
                         } else {
-                            this.splice(k, 1, v);
+                            Array.prototype.splice.apply(this, [k, 1, v]);
                         }
-
                     }
                 }
+
             } else {
                 throw new Error('You try to use not number type for array. Current version support only number.');
             }

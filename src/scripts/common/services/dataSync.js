@@ -71,33 +71,33 @@
                     writable: true
                 });
 
-
-                if (typing.isArray) {
-                    arrayObserve(updateListeners)
-
-                } else {
-
-                    Object.defineProperty(object.__vars[k], 'value', {
-                        enumerable: false,
-                        value: v,
-                        writable: true
-                    });
+                Object.defineProperty(object.__vars[k], 'value', {
+                    enumerable: false,
+                    value: v,
+                    writable: true
+                });
 
 
-                    Object.defineProperty(object, k, {
-                        set: function (v) {
-                            if (v !== this.__vars[k]) {
+                Object.defineProperty(object, k, {
+                    set: function (v) {
+                        if (v !== this.__vars[k].value) {
 
-                                updateListeners(this.__vars[k], v, k);
+                            this.__vars[k].value = v;
+                            updateListeners(this.__vars[k], v, k);
 
-                                this.__vars[k].value = v;
-                            }
-                        },
-                        get: function () {
-                            return this.__vars[k].value;
                         }
-                    });
-                }
+                    },
+                    get: function () {
+                        return this.__vars[k].value;
+                    }
+                });
+                /*if (typing.isArray) {
+                 arrayObserve(updateListeners)
+
+                 } else {
+
+
+                 }*/
 
             }
         });
@@ -128,7 +128,7 @@
         valueFrom.__vars[key].listeners.push(view);
 
         /*Вызываем обновление значения у только-что привязаного элемента*/
-        view.__update(valueFrom.__vars[key].value);
+        view.__update(valueFrom[key]);
     }
 
 })();
