@@ -1,4 +1,4 @@
-;(function (common) {
+;(function () {
     "use strict";
 
     common.components.add('ForEach', ForEach);
@@ -8,6 +8,7 @@
     var isArray = window.common.functions.types.isArray;
 
     ForEach.inject = ['element', 'parentComponent'];
+
     /*
      * Надо сделать обновление хтмл при изменении родительского значения
      *
@@ -31,37 +32,39 @@
         var isReady = false;
 
         var self = this;
-        if (!isArray(parentComponent[parentVar])) {
+        if (!isArray(parentComponent[parentVar]) && parentComponent[parentVar] !== undefined) {
             throw new Error('For-each works only with array.');
         }
 
-        appendWatchers(parentComponent[parentVar]);
+        // appendWatchers(parentComponent[parentVar]);
 
-        this.__update = function (v, k) {
+        this.__update = function () {
             if (isReady) {
                 var newHtml = "";
                 forEach(listenKeys, function (val, key) {
                     delete self[key];
                 });
 
-                forEach(parentComponent[parentVar], function (v, k) {
-                    self[k] = parentComponent[parentVar][k];
-                    console.log(parentComponent[parentVar][k], parentComponent[parentVar], parentVar, self[k]);
-                    listenKeys.push(k);
-                    newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
-                });
-
+                if (parentComponent[parentVar] !== undefined) {
+                    forEach(parentComponent[parentVar], function (v, k) {
+                        self[k] = parentComponent[parentVar][k];
+                        listenKeys.push(k);
+                        newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
+                    });
+                }
                 element.setHtml(newHtml);
             }
         };
+        if (parentComponent[parentVar] !== undefined) {
+            forEach(parentComponent[parentVar], function (v, k) {
+                self[k] = parentComponent[parentVar][k];
+                listenKeys.push(k);
+                newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
+                // appendListener(parentComponent[parentVar], self, k);
+            });
+        }
 
-        forEach(parentComponent[parentVar], function (v, k) {
-            self[k] = parentComponent[parentVar][k];
-            listenKeys.push(k);
-            newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
-            appendListener(parentComponent[parentVar], self, k);
-        });
-
+        appendListener(parentComponent, this, parentVar);
         isReady = !isReady;
         /*
          * Я делаю временное удаление хтмл, так как на момент попытки привязать значение к
@@ -83,4 +86,4 @@
             element.setHtml(newHtml);
         });
     }
-})(common);
+})();

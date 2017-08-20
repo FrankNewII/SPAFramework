@@ -6,12 +6,12 @@
     var flickr = common.models.get('flickr')();
     var events = common.events;
 
+    MainController.inject = ['element'];
     function MainController(elem) {
-        this.element = common.element.select.one(elem);
+        this.element = elem();
         this.test = 23;
 
-        this.testForeach = Array(232, 4, 353, 5, 3, 43, 4, 5, 34, 5, 34, 6, 346, 3, 46, 5, 4, 56, 4, 57, 45, 6, 34, 53, 4, 45, 6, 34, 53, 45, 34, 7, 3, 55, 34, 3
-            , 74);
+        this.testForeach = Array(232, 4, 353, 5, 3, 43);
         var i = 0;
 
         var self = this;
@@ -19,20 +19,32 @@
             this.testForeach[b] = b;
         }
 
-        events.on('sell', this, function () {
-            console.log(arguments);
-        });
+        this.photos = undefined;
+
+        events.on('sell', this, function (photos) {
+            console.log(this, photos, this.photos);
+
+            this.photos = photos;
+        }.bind(this));
+
+        this.element.addListener('click', this.randomize.bind(this));
+
     }
 
     MainController.prototype.flickSearch = function (v, cb) {
-        flickr.search(v, this.showSearched.bind(this, cb));
-    };
-
-    MainController.prototype.showSearched = function (cb, params) {
-        cb(params);
+        flickr.search(v, cb);
     };
 
     MainController.prototype.chooseImage = function (params, cb) {
         cb(params);
+    };
+
+    MainController.prototype.randomize = function () {
+        var nArr = [];
+        for (var i in this.testForeach) {
+            nArr.push(Math.ceil(Math.random() * 100));
+        }
+
+        this.testForeach = nArr;
     };
 })(common);
