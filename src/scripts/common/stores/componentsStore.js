@@ -36,7 +36,7 @@
             console.warn("You try to reset component with name: " + name);
             return;
         }
-        console.log(name);
+
         /*TODO: Set polyfill*/
 
         /*
@@ -48,11 +48,23 @@
          * Но в принципе, возможен вариант, что я начну использовать эту цепочку для передачи параметров между
          * компонентами...
          *
-         * Но я пока сомневаюсь в этой идее... Мне не нравится, что часть связи я отправлю к htmlБ а другую к коду JS
+         * Но я пока сомневаюсь в этой идее... Мне не нравится, что часть связи я отправлю к htmlБ, а другую к коду JS
          * Надо подумать о варианте с работой исключительно JS...
          *
-         * Может это лучшая идея, чем дают современные подходы... Как вариан - можно вообще всё завязать на событиях
+         * Может это лучшая идея, чем дают современные подходы... Как вариант - можно вообще всё завязать на событиях
          * с одного компонента на другие...
+         *
+         * Есть ещё одна идея. Сделать следующий интерфейс у всех компонентов:
+         * this.getParentDataComponent('main-component'); //Но вообще, я бы предпочел избегать такой связи.
+         * У нас ведь есть связь родителя с детьми просто из html. Кажется, что не стоит делать ещё одну связку.
+         * this.getChildrens(deep) -> [childComponent, childComponent, childComponent]
+         * Я понимаю, что подобное решение приведёт к более тугой завязаности компонентов, так как теперь. мои дети будут
+         * зависить от значения у родителя. Но я однако добавлю это в список вариантов.
+         *
+         * Ещё, мы получаем ещё один канал связи, помимо событий. Хотя... Чем принциписально это будет отличаться от событий???
+         * - Тем что мы запрашиваемы данные, а не ждём их. Также у нас появляется возможность манипулировать детьми. Мы можем вызывать разные их методы.
+         * Механизм будет похож на ViewChildren в angular2.
+         *
          *
          * */
         document.registerElement(name, {
@@ -78,6 +90,7 @@
 
                         component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
 
+                        //lifecycle hook as in Angular2
                         if (component.onInit) {
                             component.onInit();
                         }
@@ -87,8 +100,25 @@
                             value: component
                         });
 
+                        //lifecycle hook as in Angular2
+                        if (component.beforeAppendChild) {
+                            component.beforeAppendChild();
+                        }
+
                         buildChildrensChain(component, isParentFound ? parent._component : undefined);
+                        if (component.afterAppendChild) {
+                            component.afterAppendChild();
+                        }
+
+                        if (component.beforeAppendWatchers) {
+                            component.beforeAppendWatchers();
+                        }
+
                         appendWatchers(component);
+
+                        if (component.afterAppendWatchers) {
+                            component.afterAppendWatchers();
+                        }
                     }
                 }
             })

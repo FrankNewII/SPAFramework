@@ -13,13 +13,17 @@
   models.get = get;
 
   function get(name) {
-      if (!availableModels[name]) throw new Error("Model is not available: " + name);
+      if (!availableModels[name]) {
+          throw new Error("Model is not available: " + name);
+      }
 
-    return availableModels[name];
+      return availableModels[name];
   }
 
   function add(name, fn) {
-      if (availableModels[name]) console.warn("Reset model: " + name);
+      if (availableModels[name]) {
+          console.warn("Reset model: " + name);
+      }
 
     availableModels[name] = fn;
   }

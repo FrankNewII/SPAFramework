@@ -21,7 +21,9 @@
     }
 
     function flickr() {
-        return methods;
+        return function () {
+            return methods;
+        };
     }
 
 })(common);

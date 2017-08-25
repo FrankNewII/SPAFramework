@@ -4,6 +4,7 @@
     common.components.add('ForEach', ForEach);
     var appendListener = window.common.sync.appendListener;
     var appendWatchers = common.sync.setWatcher;
+    var removeWatchers = common.sync.removeWatchers;
     var forEach = common.functions.array.forEach;
     var isArray = window.common.functions.types.isArray;
 
@@ -45,12 +46,24 @@
                     delete self[key];
                 });
 
+                removeWatchers(this);
+
                 if (parentComponent[parentVar] !== undefined) {
                     forEach(parentComponent[parentVar], function (v, k) {
                         self[k] = parentComponent[parentVar][k];
                         listenKeys.push(k);
                         newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
                     });
+
+                    /*
+                     * Я перевызываю установку ватчеров в данном месте, так как иногда бывает, что массив в компоненте родителя
+                     * изначально равен undefined
+                     * Потом происходит переприсвоение этого свойства и появлятся значения у которых будут свои
+                     * прослушки из детских компонентов.
+                     * В принципе, возможно разумно в этом-же месте вызывать и чистку предварительно установленых прослушек, так как по идее
+                     * При переписовке елементов в этом компоненте, на данный момент не происходит переустановки прослушек, а добавляются новые
+                     * */
+                    appendWatchers(this);
                 }
                 element.setHtml(newHtml);
             }

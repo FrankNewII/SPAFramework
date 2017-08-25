@@ -3,14 +3,14 @@
 
     common.components.add('MainController', MainController);
 
-    var flickr = common.models.get('flickr')();
     var events = common.events;
-
-    MainController.inject = ['element'];
-    function MainController(elem) {
+    var currIndex = 0;
+    MainController.inject = ['element', 'flickr'];
+    function MainController(elem, flickr) {
+        this.flickrService = flickr();
         this.element = elem();
         this.test = 23;
-
+        console.log(flickr);
         this.testForeach = Array(232, 4, 353, 5, 3, 43);
         var i = 0;
 
@@ -32,7 +32,8 @@
     }
 
     MainController.prototype.flickSearch = function (v, cb) {
-        flickr.search(v, cb);
+        cb('{"photos": {"photo": [{"src": "/sdsd/sd.s","w": ' + currIndex++ + '},{"src": "/sdsd/sd.s","w": 13},{"src": "/sdsd/sd.s","w": 14}]}}');
+        // this.flickrService.search(v, cb);
     };
 
     MainController.prototype.chooseImage = function (params, cb) {

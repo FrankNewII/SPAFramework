@@ -13,7 +13,7 @@
         var index = element.getAttribute('for-each-index');
         this[key] = parentComponent[index];
 
-        this.__update = function (value) {
+        this.__update = function (k, value) {
             this[key] = value;
         };
 

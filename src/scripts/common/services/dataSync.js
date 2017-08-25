@@ -7,6 +7,7 @@
 
     sync.setWatcher = setWatchers;
     sync.appendListener = appendListener;
+    sync.removeWatchers = removeWatchers;
 
     var forEach = common.functions.array.forEach;
 
@@ -83,7 +84,7 @@
                         if (v !== this.__vars[k].value) {
 
                             this.__vars[k].value = v;
-                            updateListeners(this.__vars[k], v, k);
+                            updateListeners(this, k, v);
 
                         }
                     },
@@ -105,6 +106,12 @@
         window.watchedObjects[objectId++] = object;
     }
 
+    function removeWatchers(object) {
+        var i = Array.prototype.indexOf.apply(window.watchedObjects, object);
+        delete window.watchedObjects[i];
+        console.log(object);
+    }
+
     /*
      * Это функция обновления подписчиков на перемную. Здесь я вызываю все функции прослушек и передаю им два параметра
      * Новое значение и имя ключа. В принципе я бы смог справится с одним значением. Но ключ мне надо для прослушек,
@@ -116,19 +123,57 @@
      * Но я пока незнаю...
      * */
 
-    function updateListeners(object, value, key) {
-        if (object.listeners) {
-            forEach(object.listeners, function (v) {
-                v.__update(value, key);
+    function updateListeners(valueFrom, key, value) {
+        if (valueFrom.beforeUpdateListeners) {
+            valueFrom.beforeUpdateListeners(key, value, valueFrom);
+        }
+
+        if (valueFrom.__vars[key].listeners) {
+            forEach(valueFrom.__vars[key].listeners, function (v) {
+
+                if (v.onChangeValues) {
+                    v.onChangeValues(key, value);
+                }
+
+                v.__update(value, key, valueFrom);
+
+                if (v.afterUpdateValues) {
+                    v.afterUpdateValues(key, value, valueFrom);
+                }
             });
         }
+
+        if (valueFrom.afterUpdateListeners) {
+            valueFrom.afterUpdateListeners(key, value, valueFrom);
+        }
+
     }
 
     function appendListener(valueFrom, view, key) {
-        valueFrom.__vars[key].listeners.push(view);
+        if (valueFrom.beforeAppendListeners) {
+            valueFrom.beforeAppendListeners(valueFrom, view, key);
+        }
+        try {
+            valueFrom.__vars[key].listeners.push(view);
+        } catch (e) {
+            console.log('appendListener', arguments, e);
+        }
 
+        if (valueFrom.afterAppendListeners) {
+            valueFrom.afterAppendListeners(valueFrom, view, key);
+        }
         /*Вызываем обновление значения у только-что привязаного элемента*/
-        view.__update(valueFrom[key]);
+
+        if (view.onChangeValues) {
+            view.onChangeValues(key, value);
+        }
+
+        view.__update(key, valueFrom[key], valueFrom);
+
+        if (view.afterUpdateValues) {
+            view.afterUpdateValues(key, value, valueFrom);
+        }
+
     }
 
 })();
