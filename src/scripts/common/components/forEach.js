@@ -31,7 +31,15 @@
         var newHtml = "";
         var listenKeys = [];
         var isReady = false;
-
+        /*
+         *
+         * На данный момент здесь идет на данный момент прямое связывание имени своства с его
+         * значением в родителе. Но в будущем, надо добавить возможность идти в глубину, как это сделано
+         * в bindVar
+         * Ех:
+         * <for-each var-in="path.inside.parent">
+         *
+         * */
         var self = this;
         if (!isArray(parentComponent[parentVar]) && parentComponent[parentVar] !== undefined) {
             throw new Error('For-each works only with array.');
