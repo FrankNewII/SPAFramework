@@ -67,12 +67,14 @@
          *
          *
          * */
+        console.log(HTMLDivElement.prototype);
         document.registerElement(name, {
             prototype: Object.create(HTMLDivElement.prototype, {
                 attachedCallback: {
                     value: function () {
+                        var elm = this;
 
-                        var parent = this.parentNode;
+                        var parent = elm.parentNode;
                         var isParentFound = false;
                         var dependencies;
                         var component;
@@ -85,7 +87,7 @@
                             }
                         }
 
-                        dependencies = availableComponents[name].inject ? DI.call(null, availableComponents[name].inject, this, isParentFound ? parent._component : undefined) : [];
+                        dependencies = availableComponents[name].inject ? DI.call(null, availableComponents[name].inject, elm, isParentFound ? parent._component : undefined) : [];
                         dependencies.unshift(null);
 
                         component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
@@ -95,11 +97,16 @@
                             component.onInit();
                         }
 
-                        Object.defineProperty(this, '_component', {
+                        Object.defineProperty(elm, '_component', {
                             enumerable: false,
-                            value: component
+                            value: component,
+                            writable: true
                         });
 
+                        Object.defineProperty(component, '_view', {
+                            enumerable: false,
+                            value: elm
+                        });
                         //lifecycle hook as in Angular2
                         if (component.beforeAppendChild) {
                             component.beforeAppendChild();
@@ -119,7 +126,17 @@
                         if (component.afterAppendWatchers) {
                             component.afterAppendWatchers();
                         }
+
+
                     }
+                },
+                detachedCallback: function () {
+                    /*
+                     * Планируется использовать это каллбек на удалении тега из документа,
+                     * Чтобы чистить прослушки в родителе этого элемента.
+                     * Реализация. Было несколько вариантов, но не готово...
+                     * */
+                    console.log(this._component);
                 }
             })
         });

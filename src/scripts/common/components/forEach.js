@@ -4,7 +4,7 @@
     common.components.add('ForEach', ForEach);
     var appendListener = window.common.sync.appendListener;
     var appendWatchers = common.sync.setWatcher;
-    var removeWatchers = common.sync.removeWatchers;
+
     var forEach = common.functions.array.forEach;
     var isArray = window.common.functions.types.isArray;
 
@@ -54,8 +54,6 @@
                     delete self[key];
                 });
 
-                removeWatchers(this);
-
                 if (parentComponent[parentVar] !== undefined) {
                     forEach(parentComponent[parentVar], function (v, k) {
                         self[k] = parentComponent[parentVar][k];
@@ -71,6 +69,7 @@
                      * В принципе, возможно разумно в этом-же месте вызывать и чистку предварительно установленых прослушек, так как по идее
                      * При переписовке елементов в этом компоненте, на данный момент не происходит переустановки прослушек, а добавляются новые
                      * */
+                    console.log(this);
                     appendWatchers(this);
                 }
                 element.setHtml(newHtml);
@@ -104,7 +103,9 @@
         element.setHtml('');
 
         setTimeout(function () {
-            element.setHtml(newHtml);
+            if (parentComponent[parentVar] !== undefined) {
+                element.setHtml(newHtml);
+            }
         });
     }
 })();

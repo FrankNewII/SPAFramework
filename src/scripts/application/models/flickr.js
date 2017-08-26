@@ -16,6 +16,7 @@
             api_key: 'b54580f369a7eeebecb2004dc429d08f',
             tags: v,
             format: 'json',
+            per_page: 5,
             nojsoncallback: 1
         }, cb);
     }

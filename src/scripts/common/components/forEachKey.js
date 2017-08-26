@@ -3,6 +3,8 @@
 
     common.components.add('ForEachKey', ForEachKey);
     var appendListener = window.common.sync.appendListener;
+    var appendWatchers = common.sync.setWatcher;
+
     ForEachKey.inject = ['element', 'parentComponent'];
 
     function ForEachKey(elem, parent) {
@@ -16,7 +18,7 @@
         this.__update = function (k, value) {
             this[key] = value;
         };
-
+        appendWatchers(this);
         appendListener(parentComponent, this, index);
     }
 })(common);

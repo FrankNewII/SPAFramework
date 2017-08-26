@@ -21,7 +21,9 @@
             this.parent.flickSearch(query, function (res) {
 
                 var response = JSON.parse(res);
-                events.emit('sell', this, response.photos.photo);
+
+                // Test EventEmitter
+                events.emit('SearchComponent::flickrRespond', this, response.photos.photo);
             }.bind(this));
         }
     }

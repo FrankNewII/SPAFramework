@@ -26,22 +26,23 @@
          * прийдется придумаю, что-то по приоритетам. Чтобы внутрение директивы можно было инициализировать
          * в определённом порядке...
          * */
-        setTimeout(function () {
             var element = elem();
             var parentCtrl = parent();
             var data = element.getData();
             if (!data.varName) {
                 throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
             }
-            this.__update = function (k, value) {
+
+        this.__update = function () {
                 element.setHtml('<img src="' +
-                    data.prefix + getValueByString(data.varName, parentCtrl) + data.suffix + '"' +
+                    getValueByString(data.varName, parentCtrl) + '"' +
                     ' width="' + data.width + '" ' +
                     ' height="' + data.height + '" ' +
                     '/>');
             };
-            console.log(this, element, elem, parentCtrl, parent);
+
             appendListener(parentCtrl, this, data.varName.split('.')[0]);
-        }.bind(this));
+
+
     }
 })(common);

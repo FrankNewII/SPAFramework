@@ -7,7 +7,6 @@
 
     sync.setWatcher = setWatchers;
     sync.appendListener = appendListener;
-    sync.removeWatchers = removeWatchers;
 
     var forEach = common.functions.array.forEach;
 
@@ -56,7 +55,15 @@
                     Object.defineProperty(object, '__vars', {
                         enumerable: false,
                         value: {},
-                        writable: true
+                        writable: true,
+                        removable: true
+                    });
+                }
+                if (object.__objectIndex === undefined) {
+                    Object.defineProperty(object, '__objectIndex', {
+                        enumerable: false,
+                        value: objectId++,
+                        writable: false
                     });
                 }
 
@@ -103,14 +110,9 @@
             }
         });
 
-        window.watchedObjects[objectId++] = object;
+        window.watchedObjects[objectId] = object;
     }
 
-    function removeWatchers(object) {
-        var i = Array.prototype.indexOf.apply(window.watchedObjects, object);
-        delete window.watchedObjects[i];
-        console.log(object);
-    }
 
     /*
      * Это функция обновления подписчиков на перемную. Здесь я вызываю все функции прослушек и передаю им два параметра
@@ -150,30 +152,36 @@
     }
 
     function appendListener(valueFrom, view, key) {
-        if (valueFrom.beforeAppendListeners) {
-            valueFrom.beforeAppendListeners(valueFrom, view, key);
-        }
         try {
-            valueFrom.__vars[key].listeners.push(view);
+            if (valueFrom.beforeAppendListeners) {
+                valueFrom.beforeAppendListeners(valueFrom, view, key);
+            }
+            try {
+                valueFrom.__vars[key].listeners.push(view);
+            } catch (e) {
+                console.log('appendListener', arguments, e);
+            }
+
+            if (valueFrom.afterAppendListeners) {
+                valueFrom.afterAppendListeners(valueFrom, view, key);
+            }
+            /*Вызываем обновление значения у только-что привязаного элемента*/
+
+            if (view.onChangeValues) {
+                view.onChangeValues(key, value);
+            }
+            setTimeout(function () {
+                view.__update(key, valueFrom[key], valueFrom);
+
+                if (view.afterUpdateValues) {
+                    view.afterUpdateValues(key, value, valueFrom);
+                }
+            });
+
         } catch (e) {
-            console.log('appendListener', arguments, e);
+            console.log(arguments);
+            throw e;
         }
-
-        if (valueFrom.afterAppendListeners) {
-            valueFrom.afterAppendListeners(valueFrom, view, key);
-        }
-        /*Вызываем обновление значения у только-что привязаного элемента*/
-
-        if (view.onChangeValues) {
-            view.onChangeValues(key, value);
-        }
-
-        view.__update(key, valueFrom[key], valueFrom);
-
-        if (view.afterUpdateValues) {
-            view.afterUpdateValues(key, value, valueFrom);
-        }
-
     }
 
 })();

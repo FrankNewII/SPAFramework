@@ -105,7 +105,7 @@
     }
 
     function getValue(query) {
-        if (!this.elem.value) {
+        if (this.elem.value === undefined) {
             console.warn("This element haven't value:", this.elem);
         }
         return this.elem.value;
