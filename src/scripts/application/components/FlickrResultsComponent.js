@@ -1,7 +1,7 @@
 ;(function (common) {
   "use strict";
 
-  common.components.add('FlickrResultComponent', FlickrResultComponent);
+    common.components.add({name: 'FlickrResultComponent'}, FlickrResultComponent);
 
   function FlickrResultComponent() {
     this.element.addListener('click', this.addToChoosed.bind(this));

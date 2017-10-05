@@ -1,7 +1,7 @@
 ;(function (common) {
     "use strict";
 
-    common.components.add('BindImg', BindImg);
+    common.components.add({name: 'BindImg'}, BindImg);
     var appendListener = window.common.sync.appendListener;
     var forEach = common.functions.array.forEach;
 

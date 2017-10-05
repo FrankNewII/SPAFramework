@@ -1,7 +1,7 @@
 (function (common) {
     "use strict";
 
-    common.components.add('SearchComponent', SearchComponent);
+    common.components.add({name: 'SearchComponent'}, SearchComponent);
 
     SearchComponent.inject = ['element', 'parentComponent'];
 

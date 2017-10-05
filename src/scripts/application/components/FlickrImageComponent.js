@@ -1,7 +1,7 @@
 ;(function (common) {
     "use strict";
 
-    common.components.add('FlickrImageComponent', FlickrImageComponent);
+    common.components.add({name: 'FlickrImageComponent'}, FlickrImageComponent);
     var appendListener = window.common.sync.appendListener;
     var forEach = common.functions.array.forEach;
     var appendWatchers = common.sync.setWatcher;

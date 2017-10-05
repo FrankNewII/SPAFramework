@@ -1,7 +1,10 @@
 ;(function (common) {
     "use strict";
 
-    common.components.add('BindVar', BindVar);
+    common.components.add({
+        name: 'BindVar'
+    }, BindVar);
+
     var appendListener = window.common.sync.appendListener;
     var forEach = common.functions.array.forEach;
 

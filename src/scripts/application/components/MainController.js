@@ -1,7 +1,7 @@
 ;(function (common) {
     "use strict";
 
-    common.components.add('AppComponent', AppComponent);
+    common.components.add({name: 'AppComponent'}, AppComponent);
 
     var events = common.events;
     var currIndex = 0;

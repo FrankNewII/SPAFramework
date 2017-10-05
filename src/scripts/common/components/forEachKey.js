@@ -1,7 +1,7 @@
 ;(function (common) {
     "use strict";
 
-    common.components.add('ForEachKey', ForEachKey);
+    common.components.add({name: 'ForEachKey'}, ForEachKey);
     var appendListener = window.common.sync.appendListener;
     var appendWatchers = common.sync.setWatcher;
 

@@ -10,9 +10,27 @@
     var forEach = functions.array.forEach;
 
     function extend(obj1, obj2) {
-        forEach(obj2, function (v, k) {
-            obj1[k] = v;
+        var newObject = {};
+        forEach(obj1, function (v, k) {
+            if (functions.types.isArray(v) || functions.types.isObject(v)) {
+                newObject[k] = extend(newObject[k], v);
+
+            } else {
+                newObject[k] = v;
+            }
+
         });
+        forEach(obj2, function (v, k) {
+            if (functions.types.isArray(v) || functions.types.isObject(v)) {
+                newObject[k] = extend(newObject[k], v);
+
+            } else {
+                newObject[k] = v;
+            }
+
+        });
+
+        return newObject;
     }
 
 })();

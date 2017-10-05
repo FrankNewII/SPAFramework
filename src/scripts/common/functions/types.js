@@ -7,7 +7,7 @@
     functions.types = {};
     functions.types.isNumber = isNumber;
 
-    ['Boolean', 'String', 'RegExp', 'Undefined', 'Date', 'Arguments', 'Function', 'Null', 'Array'].forEach(function (v) {
+    ['Boolean', 'String', 'RegExp', 'Undefined', 'Date', 'Arguments', 'Function', 'Null', 'Array', 'Object'].forEach(function (v) {
         functions.types['is' + v] = function (obj) {
             return Object.prototype.toString.call(obj) === '[object ' + v + ']';
         }

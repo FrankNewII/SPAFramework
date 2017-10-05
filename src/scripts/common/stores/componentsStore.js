@@ -14,6 +14,11 @@
     var parentComponentModelInstance = window.common.models.get('parentComponent');
     var injector = common.DI.inject;
     var appendWatchers = common.sync.setWatcher;
+    var extend = common.functions.object.extend;
+
+    var defaultConfig = {
+        priority: 10
+    };
 
     function get(name) {
         name = name.replace(/[A-Z]/g, function (v, i) {
@@ -27,9 +32,10 @@
         return availableComponents[name];
     }
 
-    function add(name, fn) {
+    function add(config, instance) {
+        config = extend(defaultConfig, config);
 
-        name = name.replace(/[A-Z]/g, function (v, i) {
+        var name = config.name.replace(/[A-Z]/g, function (v, i) {
             return i ? '-' + v.toLowerCase() : v.toLowerCase();
         });
 
@@ -73,9 +79,8 @@
             prototype: Object.create(HTMLDivElement.prototype, {
                 attachedCallback: {
                     value: function () {
-                        var elm = this;
 
-                        var parent = elm.parentNode;
+                        var parent = this.parentNode;
                         var isParentFound = false;
                         var dependencies;
                         var component;
@@ -92,7 +97,7 @@
                          * Это полная фигня, я динамически добавляю своства в качестве зависимостей
                          * Чтобы в навосоздаваемый объект передать текущий элемент
                          * */
-                        SelectOne.inject = [elm];
+                        SelectOne.inject = [this];
                         parentComponentModelInstance.inject = isParentFound && [parent, parent._component];
 
                         component = injector(availableComponents[name]);
@@ -104,7 +109,7 @@
                             component.onInit();
                         }
 
-                        Object.defineProperty(elm, '_component', {
+                        Object.defineProperty(this, '_component', {
                             enumerable: false,
                             value: component,
                             writable: true
@@ -112,7 +117,7 @@
 
                         Object.defineProperty(component, '_view', {
                             enumerable: false,
-                            value: elm
+                            value: this
                         });
                         //lifecycle hook as in Angular2
                         if (component.beforeAppendChild) {
@@ -148,7 +153,7 @@
             })
         });
 
-        availableComponents[name] = fn;
+        availableComponents[name] = instance;
     }
 
     function buildChildrensChain(object, parent) {
