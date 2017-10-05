@@ -50,7 +50,7 @@
 
     function setWatchers(object) {
         forEach(object, function (v, k) {
-            if (!typing.isFunction(v)) {
+            if (v === undefined || !typing.isFunction(v) && !v.__DONT_WATCH) {
                 if (!object.__vars) {
                     Object.defineProperty(object, '__vars', {
                         enumerable: false,
@@ -110,7 +110,7 @@
             }
         });
 
-        window.watchedObjects[objectId] = object;
+        window.watchedObjects[objectId++] = object;
     }
 
 

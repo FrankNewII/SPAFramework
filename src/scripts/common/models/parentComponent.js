@@ -1,7 +1,11 @@
 ;(function () {
     "use strict";
 
-    common.models.add('parentComponent', parent);
+    common.models.add({
+        name: 'parentComponent',
+        instance: ParentComponent,
+        type: 'factory'
+    });
 
 
 
@@ -12,10 +16,9 @@
      * и для того, чтобы конечному пользователю все зависимости использовать одинаково
      * - я вынужден принять такое решение
      * */
-    function parent(element, parentComponent) {
-        return function () {
-            return parentComponent;
-        };
+    function ParentComponent(element, parentComponent) {
+        this.component = parentComponent;
+        this.element = element;
     }
 
 })();

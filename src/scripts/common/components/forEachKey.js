@@ -9,8 +9,8 @@
 
     function ForEachKey(elem, parent) {
 
-        var element = elem();
-        var parentComponent = parent();
+        var element = elem;
+        var parentComponent = parent.component;
         var key = element.getAttribute('key-name');
         var index = element.getAttribute('for-each-index');
         this[key] = parentComponent[index];

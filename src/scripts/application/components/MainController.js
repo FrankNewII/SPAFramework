@@ -5,26 +5,23 @@
 
     var events = common.events;
     var currIndex = 0;
+    // Test DI
     AppComponent.inject = ['element', 'flickr'];
+
     function AppComponent(elem, flickr) {
-        this.flickrService = flickr();
-        this.element = elem();
-        this.test = 23;
-
-        this.testForeach = Array(232, 4, 353, 5, 3, 43);
-        var i = 0;
-
-        var self = this;
-
+        this.flickrService = flickr;
+        this.element = elem;
         this.photos = undefined;
+        this.test = 23;
+        this.testForeach = Array(232, 4, 353, 5, 3, 43);
+        var self = this;
         // Test EventListener.
         events.on('SearchComponent::flickrRespond', this, function (photos) {
-            this.photos = photos;
-        }.bind(this));
+            self.photos = photos;
+        });
 
         // autoupdate view test
         this.element.addListener('click', this.randomize.bind(this));
-
     }
 
     AppComponent.prototype.flickSearch = function (v, cb) {
@@ -39,7 +36,7 @@
     AppComponent.prototype.randomize = function () {
         // autoupdate view test
         var nArr = [];
-        for (var i in this.testForeach) {
+        for (var i = 0; i < 200; i++) {
             nArr.push(Math.ceil(Math.random() * 100));
         }
 

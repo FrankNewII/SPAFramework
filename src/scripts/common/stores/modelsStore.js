@@ -8,7 +8,7 @@
      * Store of services
      * */
   var availableModels = {};
-
+    var exemplars = {};
   models.add = add;
   models.get = get;
 
@@ -17,14 +17,22 @@
           throw new Error("Model is not available: " + name);
       }
 
-      return availableModels[name];
+      if (availableModels[name].type === 'singleton') {
+          return (availableModels[name].instance);
+      }
+      return availableModels[name].instance;
   }
 
-  function add(name, fn) {
-      if (availableModels[name]) {
+    /**
+     * config: {
+   *    type: 'singleton' | 'factory' ,
+   *    instance: Class,
+   *    name: string
+   * }*/
+    function add(config) {
+        if (availableModels[config.name]) {
           console.warn("Reset model: " + name);
       }
-
-    availableModels[name] = fn;
+        availableModels[config.name] = config;
   }
 })();

@@ -8,8 +8,8 @@
     var events = common.events;
 
     function SearchComponent(element, parent) {
-        this.element = element();
-        this.parent = parent();
+        this.element = element;
+        this.parent = parent;
         this.element.addListener('click', this.search.bind(this));
         this.element.addListener('keyup', this.change.bind(this));
     }
@@ -18,7 +18,7 @@
 
         if (e.target.getAttribute('role') === 'button') {
             var query = this.element.searchIn('[type=text]').getValue();
-            this.parent.flickSearch(query, function (res) {
+            this.parent.component.flickSearch(query, function (res) {
 
                 var response = JSON.parse(res);
 
@@ -29,7 +29,7 @@
     }
 
     SearchComponent.prototype.change = function (e) {
-        this.parent.test = this.element.searchIn('[type=text]').getValue();
+        this.parent.component.test = this.element.searchIn('[type=text]').getValue();
     }
 
 })(common);

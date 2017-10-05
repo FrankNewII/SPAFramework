@@ -18,7 +18,7 @@
         return lastVal;
     }
 
-    function BindImg(elem, parent) {
+    function BindImg(element, parentCtrl) {
         /*
          * Здесь происходит отложенная инициализация bind-var.
          * Отложенна для уменьшения приоритета инициализации.
@@ -26,22 +26,21 @@
          * прийдется придумаю, что-то по приоритетам. Чтобы внутрение директивы можно было инициализировать
          * в определённом порядке...
          * */
-            var element = elem();
-            var parentCtrl = parent();
-            var data = element.getData();
-            if (!data.varName) {
-                throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
-            }
+
+        var data = element.getData();
+        if (!data.varName) {
+            throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
+        }
 
         this.__update = function () {
-                element.setHtml('<img src="' +
-                    getValueByString(data.varName, parentCtrl) + '"' +
-                    ' width="' + data.width + '" ' +
-                    ' height="' + data.height + '" ' +
-                    '/>');
-            };
+            element.setHtml('<img src="' +
+                getValueByString(data.varName, parentCtrl.component) + '"' +
+                ' width="' + data.width + '" ' +
+                ' height="' + data.height + '" ' +
+                '/>');
+        };
 
-            appendListener(parentCtrl, this, data.varName.split('.')[0]);
+        appendListener(parentCtrl.component, this, data.varName.split('.')[0]);
 
 
     }

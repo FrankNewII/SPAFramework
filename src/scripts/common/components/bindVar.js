@@ -18,7 +18,7 @@
         return lastVal;
     }
 
-    function BindVar(elem, parent) {
+    function BindVar(element, parentCtrl) {
         /*
          * Здесь происходит отложенная инициализация bind-var.
          * Отложенна для уменьшения приоритета инициализации.
@@ -27,16 +27,14 @@
          * в определённом порядке...
          * */
 
-        var element = elem();
-            var parentCtrl = parent();
-            var key = element.getAttribute('var-name');
-            if (!key) {
-                throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
-            }
-            this.__update = function (k, value) {
-                element.setHtml(getValueByString(key, parentCtrl));
-            };
-            appendListener(parentCtrl, this, key.split('.')[0]);
+        var key = element.getAttribute('var-name');
+        if (!key) {
+            throw new Error('Attribute with binded variable name missed. You miss "var-name" attribute ');
+        }
+        this.__update = function (k, value) {
+            element.setHtml(getValueByString(key, parentCtrl.component));
+        };
+        appendListener(parentCtrl, this, key.split('.')[0]);
 
     }
 })(common);

@@ -14,13 +14,9 @@
      * @params 'query' - css selector of element on DOM or link to element
      *
      * */
-    elem.select.one = function (query) {
-        return new SelectOne(query);
-    }
+    elem.select.one = SelectOne;
 
-    elem.select.list = function (query) {
-        return new SelectList(query);
-    }
+    elem.select.list = SelectList;
 
 
     SelectOne.prototype = Object.create(null);
@@ -56,6 +52,9 @@
 
 
     function SelectOne(query) {
+        if (!this instanceof SelectOne) {
+            return new SelectOne;
+        }
         this.elem = SelectOne.find(query)
     }
 
@@ -64,6 +63,9 @@
     }
 
     function SelectList(query) {
+        if (!this instanceof SelectOne) {
+            return new SelectList;
+        }
         this.elems = SelectList.findAll(query);
     }
 

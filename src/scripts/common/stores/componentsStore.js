@@ -10,8 +10,9 @@
     var availableComponents = {};
     components.add = add;
     components.get = get;
-
-    var DI = common.DI.get;
+    var SelectOne = window.common.element.select.one;
+    var parentComponentModelInstance = window.common.models.get('parentComponent');
+    var injector = common.DI.inject;
     var appendWatchers = common.sync.setWatcher;
 
     function get(name) {
@@ -67,7 +68,7 @@
          *
          *
          * */
-        console.log(HTMLDivElement.prototype);
+
         document.registerElement(name, {
             prototype: Object.create(HTMLDivElement.prototype, {
                 attachedCallback: {
@@ -87,11 +88,17 @@
                             }
                         }
 
-                        dependencies = availableComponents[name].inject ? DI.call(null, availableComponents[name].inject, elm, isParentFound ? parent._component : undefined) : [];
-                        dependencies.unshift(null);
+                        /**
+                         * Это полная фигня, я динамически добавляю своства в качестве зависимостей
+                         * Чтобы в навосоздаваемый объект передать текущий элемент
+                         * */
+                        SelectOne.inject = [elm];
+                        parentComponentModelInstance.inject = isParentFound && [parent, parent._component];
 
-                        component = new (Function.prototype.bind.apply(availableComponents[name], dependencies));
+                        component = injector(availableComponents[name]);
 
+                        parentComponentModelInstance.inject = undefined;
+                        SelectOne.inject = undefined;
                         //lifecycle hook as in Angular2
                         if (component.onInit) {
                             component.onInit();

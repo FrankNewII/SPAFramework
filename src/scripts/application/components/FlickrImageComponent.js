@@ -10,8 +10,8 @@
 
     function FlickrImageComponent(elem, parent) {
 
-        var element = elem();
-        var parentCtrl = parent();
+        var element = elem;
+        var parentCtrl = parent.component;
         var data = element.getData();
         var lastVal;
 

@@ -21,9 +21,7 @@
      *
      * */
 
-    function ForEach(elem, parent) {
-        var element = elem();
-        var parentComponent = parent();
+    function ForEach(element, parentComponent) {
         var key = element.getAttribute('key-name');
         var parentVar = element.getAttribute('var-in');
 
@@ -54,9 +52,9 @@
                     delete self[key];
                 });
 
-                if (parentComponent[parentVar] !== undefined) {
-                    forEach(parentComponent[parentVar], function (v, k) {
-                        self[k] = parentComponent[parentVar][k];
+                if (parentComponent.component[parentVar] !== undefined) {
+                    forEach(parentComponent.component[parentVar], function (v, k) {
+                        self[k] = v;
                         listenKeys.push(k);
                         newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
                     });
@@ -75,16 +73,16 @@
                 element.setHtml(newHtml);
             }
         };
-        if (parentComponent[parentVar] !== undefined) {
-            forEach(parentComponent[parentVar], function (v, k) {
-                self[k] = parentComponent[parentVar][k];
+        if (parentComponent.component[parentVar] !== undefined) {
+            forEach(parentComponent.component[parentVar], function (v, k) {
+                self[k] = v;
                 listenKeys.push(k);
                 newHtml += '<for-each-key key-name="' + key + '" for-each-index="' + k + '">' + html + '</for-each-key>';
                 // appendListener(parentComponent[parentVar], self, k);
             });
         }
 
-        appendListener(parentComponent, this, parentVar);
+        appendListener(parentComponent.component, this, parentVar);
         isReady = !isReady;
         /*
          * Я делаю временное удаление хтмл, так как на момент попытки привязать значение к
