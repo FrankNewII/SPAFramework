@@ -37,15 +37,6 @@
 <body>
 <app-component>
     <section class="container">
-        <div class="test-foreach">
-            <for-each key-name="forEachItem" var-in="testForeach">
-                <bind-var var-name="forEachItem"></bind-var>
-            </for-each>
-        </div>
-        <for-each key-name="photo" var-in="photos">
-            <flickr-image-component data-var-name="photo"></flickr-image-component>
-        </for-each>
-
         <section>
             <search-component>
                 <button role="button">Search</button>
@@ -59,7 +50,14 @@
                 </div>
             </gallery-component>
         </section>
-
+        <section>
+            <h1>Found Images:</h1>
+            <div>
+                <for-each key-name="photo" var-in="photos">
+                    <flickr-image-component data-var-name="photo"></flickr-image-component>
+                </for-each>
+            </div>
+        </section>
         <section>
             <gallery-component>
                 <div>
@@ -68,6 +66,12 @@
                 </div>
             </gallery-component>
         </section>
+
+        <div class="test-foreach">
+            <for-each key-name="forEachItem" var-in="testForeach">
+                <bind-var var-name="forEachItem"></bind-var>
+            </for-each>
+        </div>
     </section>
 </app-component>
 </body>

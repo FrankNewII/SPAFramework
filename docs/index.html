@@ -1,0 +1,77 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport"
+          content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+    <meta http-equiv="X-UA-Compatible" content="ie=edge">
+    <title>Document</title>
+
+    <script src="../src/scripts/common/functions/types.js"></script>
+    <script src="../src/scripts/common/functions/array.js"></script>
+    <script src="../src/scripts/common/functions/object.js"></script>
+    <script src="../src/scripts/common/element.js"></script>
+    <script src="../src/scripts/common/events.js"></script>
+    <script src="../src/scripts/common/xhr.js"></script>
+    <script src="../src/scripts/common/stores/modelsStore.js"></script>
+    <script src="../src/scripts/common/stores/templateStore.js"></script>
+    <script src="../src/scripts/common/models/element.js"></script>
+    <script src="../src/scripts/common/models/parentComponent.js"></script>
+    <script src="../src/scripts/common/services/DI.js"></script>
+    <script src="../src/scripts/common/services/router.js"></script>
+    <script src="../src/scripts/common/services/arraySync.js"></script>
+    <script src="../src/scripts/common/services/dataSync.js"></script>
+    <script src="../src/scripts/common/services/templatesCompiler.js"></script>
+    <script src="../src/scripts/common/stores/componentsStore.js"></script>
+    <script src="../src/scripts/common/components/bindVar.js"></script>
+    <script src="../src/scripts/common/components/forEach.js"></script>
+    <script src="../src/scripts/common/components/forEachKey.js"></script>
+    <script src="../dist/application/application.models.js"></script>
+    <script src="../dist/application/application.components.min.js"></script>
+    <script src="../src/scripts/common/components/bindImg.js"></script>
+    <link rel="stylesheet" href="../dist/styles/main.min.css">
+
+
+</head>
+<body>
+<app-component>
+    <section class="container">
+        <section>
+            <search-component>
+                <button role="button">Search</button>
+                <input type="text"/>
+            </search-component>
+
+            <gallery-component>
+                <div>
+                    <div class="gallery">
+                    </div>
+                </div>
+            </gallery-component>
+        </section>
+        <section>
+            <h1>Found Images:</h1>
+            <div>
+                <for-each key-name="photo" var-in="photos">
+                    <flickr-image-component data-var-name="photo"></flickr-image-component>
+                </for-each>
+            </div>
+        </section>
+        <section>
+            <gallery-component>
+                <div>
+                    <div class="gallery">
+                    </div>
+                </div>
+            </gallery-component>
+        </section>
+
+        <div class="test-foreach">
+            <for-each key-name="forEachItem" var-in="testForeach">
+                <bind-var var-name="forEachItem"></bind-var>
+            </for-each>
+        </div>
+    </section>
+</app-component>
+</body>
+</html>
